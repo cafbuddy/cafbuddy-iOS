@@ -12,6 +12,7 @@
 		E01C60D21A102FC400528411 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E01C60D01A102FC400528411 /* Main.storyboard */; };
 		E01C60D41A102FC400528411 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E01C60D31A102FC400528411 /* Images.xcassets */; };
 		E01C60D71A102FC400528411 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = E01C60D51A102FC400528411 /* LaunchScreen.xib */; };
+		E0A9AE981A2133A8006F4504 /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A9AE971A2133A8006F4504 /* CustomTableViewCell.swift */; };
 		E0AFA45C1A1C1102000810C1 /* JSQSystemSoundPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = E0AFA45B1A1C1102000810C1 /* JSQSystemSoundPlayer.m */; };
 		E0AFA4B31A1C111A000810C1 /* bubble.png in Resources */ = {isa = PBXBuildFile; fileRef = E0AFA4601A1C111A000810C1 /* bubble.png */; };
 		E0AFA4B41A1C111A000810C1 /* bubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E0AFA4611A1C111A000810C1 /* bubble@2x.png */; };
@@ -80,7 +81,6 @@
 		E0D7D88F1A17BFC100C35136 /* MySignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D7D88D1A17BFC100C35136 /* MySignupViewController.swift */; };
 		E0D7D8911A17C19B00C35136 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D7D8901A17C19B00C35136 /* Utilities.swift */; };
 		E0D7D8931A17C99400C35136 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D7D8921A17C99400C35136 /* SwiftyJSON.swift */; };
-		E0D7D8951A17C9AF00C35136 /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D7D8941A17C9AF00C35136 /* CustomTableViewCell.swift */; };
 		E0D7D8971A17CBE900C35136 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D7D8961A17CBE900C35136 /* SecondViewController.swift */; };
 		E0D7D89F1A17EB0700C35136 /* cafbuddylogo.png in Resources */ = {isa = PBXBuildFile; fileRef = E0D7D89C1A17EB0700C35136 /* cafbuddylogo.png */; };
 		E0D7D8A01A17EB0700C35136 /* cafbuddylogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E0D7D89D1A17EB0700C35136 /* cafbuddylogo@2x.png */; };
@@ -103,6 +103,7 @@
 		E01C60E11A102FC400528411 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E01C60E21A102FC400528411 /* Caf_BuddyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Caf_BuddyTests.swift; sourceTree = "<group>"; };
 		E0803AB41A1A51BF001F7115 /* Caf Buddy-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Caf Buddy-Bridging-Header.h"; sourceTree = "<group>"; };
+		E0A9AE971A2133A8006F4504 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 		E0AFA45A1A1C1102000810C1 /* JSQSystemSoundPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSQSystemSoundPlayer.h; sourceTree = "<group>"; };
 		E0AFA45B1A1C1102000810C1 /* JSQSystemSoundPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSQSystemSoundPlayer.m; sourceTree = "<group>"; };
 		E0AFA4601A1C111A000810C1 /* bubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bubble.png; sourceTree = "<group>"; };
@@ -199,7 +200,6 @@
 		E0D7D88D1A17BFC100C35136 /* MySignupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MySignupViewController.swift; sourceTree = "<group>"; };
 		E0D7D8901A17C19B00C35136 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		E0D7D8921A17C99400C35136 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
-		E0D7D8941A17C9AF00C35136 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomTableViewCell.swift; path = ../../../Downloads/CustomTableViewCell.swift; sourceTree = "<group>"; };
 		E0D7D8961A17CBE900C35136 /* SecondViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
 		E0D7D89C1A17EB0700C35136 /* cafbuddylogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cafbuddylogo.png; sourceTree = "<group>"; };
 		E0D7D89D1A17EB0700C35136 /* cafbuddylogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cafbuddylogo@2x.png"; sourceTree = "<group>"; };
@@ -258,7 +258,7 @@
 			isa = PBXGroup;
 			children = (
 				E0D7D8A21A17EB0E00C35136 /* cafBuddylogo */,
-				E0D7D8941A17C9AF00C35136 /* CustomTableViewCell.swift */,
+				E0A9AE971A2133A8006F4504 /* CustomTableViewCell.swift */,
 				E0D7D8921A17C99400C35136 /* SwiftyJSON.swift */,
 				E0D7D8901A17C19B00C35136 /* Utilities.swift */,
 				E0D7D88C1A17BFC100C35136 /* MyLoginViewController.swift */,
@@ -617,7 +617,6 @@
 				E0AFA4D31A1C111A000810C1 /* JSQMessagesCollectionViewLayoutAttributes.m in Sources */,
 				E0AFA4C61A1C111A000810C1 /* NSString+JSQMessages.m in Sources */,
 				E0AFA4CE1A1C111A000810C1 /* JSQMessagesBubbleImageFactory.m in Sources */,
-				E0D7D8951A17C9AF00C35136 /* CustomTableViewCell.swift in Sources */,
 				E0AFA4CD1A1C111A000810C1 /* JSQMessagesAvatarFactory.m in Sources */,
 				E0AFA4DE1A1C111A000810C1 /* JSQMessagesLoadEarlierHeaderView.m in Sources */,
 				E0AFA4C81A1C111A000810C1 /* UIImage+JSQMessages.m in Sources */,
@@ -634,6 +633,7 @@
 				E0D7D8971A17CBE900C35136 /* SecondViewController.swift in Sources */,
 				E0AFA4C91A1C111A000810C1 /* UIView+JSQMessages.m in Sources */,
 				E0D7D8911A17C19B00C35136 /* Utilities.swift in Sources */,
+				E0A9AE981A2133A8006F4504 /* CustomTableViewCell.swift in Sources */,
 				E0AFA4DD1A1C111A000810C1 /* JSQMessagesLabel.m in Sources */,
 				E0AFA45C1A1C1102000810C1 /* JSQSystemSoundPlayer.m in Sources */,
 				E0D7D8931A17C99400C35136 /* SwiftyJSON.swift in Sources */,
