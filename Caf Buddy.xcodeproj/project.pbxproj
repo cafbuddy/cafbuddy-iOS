@@ -93,6 +93,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		00496A201A21396C00A06E2F /* Caf_Buddy-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Caf_Buddy-Bridging-Header.h"; sourceTree = SOURCE_ROOT; };
 		E01C60C51A102FC300528411 /* Caf Buddy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Caf Buddy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E01C60C91A102FC400528411 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E01C60CA1A102FC400528411 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -102,7 +103,6 @@
 		E01C60D61A102FC400528411 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		E01C60E11A102FC400528411 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E01C60E21A102FC400528411 /* Caf_BuddyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Caf_BuddyTests.swift; sourceTree = "<group>"; };
-		E0803AB41A1A51BF001F7115 /* Caf Buddy-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Caf Buddy-Bridging-Header.h"; sourceTree = "<group>"; };
 		E0A9AE971A2133A8006F4504 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 		E0AFA45A1A1C1102000810C1 /* JSQSystemSoundPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSQSystemSoundPlayer.h; sourceTree = "<group>"; };
 		E0AFA45B1A1C1102000810C1 /* JSQSystemSoundPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSQSystemSoundPlayer.m; sourceTree = "<group>"; };
@@ -282,7 +282,7 @@
 		E01C60C81A102FC400528411 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				E0803AB41A1A51BF001F7115 /* Caf Buddy-Bridging-Header.h */,
+				00496A201A21396C00A06E2F /* Caf_Buddy-Bridging-Header.h */,
 				E01C60C91A102FC400528411 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -765,23 +765,15 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Caf",
-					Buddy,
-					"$(PROJECT_DIR)/Caf",
-					Buddy,
-					"$(PROJECT_DIR)/Caf",
-					Buddy/Frameworks,
-					"$(PROJECT_DIR)/Caf",
-					Buddy/Frameworks,
-					"$(PROJECT_DIR)/Caf",
-					Buddy/Frameworks,
+					"\"$(PROJECT_DIR)/Caf Buddy\"",
+					"\"$(PROJECT_DIR)/Caf Buddy/Frameworks\"",
 				);
 				INFOPLIST_FILE = "Caf Buddy/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "/Users/armaanbindra2/Desktop/Caf Buddy/Caf Buddy/Caf Buddy-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(PRODUCT_NAME:c99extidentifier)-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -794,23 +786,15 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Caf",
-					Buddy,
-					"$(PROJECT_DIR)/Caf",
-					Buddy,
-					"$(PROJECT_DIR)/Caf",
-					Buddy/Frameworks,
-					"$(PROJECT_DIR)/Caf",
-					Buddy/Frameworks,
-					"$(PROJECT_DIR)/Caf",
-					Buddy/Frameworks,
+					"\"$(PROJECT_DIR)/Caf Buddy\"",
+					"\"$(PROJECT_DIR)/Caf Buddy/Frameworks\"",
 				);
 				INFOPLIST_FILE = "Caf Buddy/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "/Users/armaanbindra2/Desktop/Caf Buddy/Caf Buddy/Caf Buddy-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(PRODUCT_NAME:c99extidentifier)-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
