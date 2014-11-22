@@ -25,7 +25,6 @@ class ChatViewController: JSQMessagesViewController {
         // Do any additional setup after loading the view, typically from a nib.
         inputToolbar.contentView.leftBarButtonItem = nil
         automaticallyScrollsToMostRecentMessage = true
-        navigationController?.navigationBar.topItem?.title = "Logout"
         
         sender = (sender != nil) ? sender : "Anonymous"
         //let profileImageUrl = user?.providerData["cachedUserProfile"]?["profile_image_url_https"] as? NSString
