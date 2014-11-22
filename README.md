@@ -1,4 +1,3 @@
-cafbuddy
-========
+CafBuddy App(iOS)
+=======
 
-CafBuddy App
