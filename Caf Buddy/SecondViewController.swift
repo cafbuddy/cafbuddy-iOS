@@ -101,6 +101,9 @@ class SecondViewController: UIViewController, UIPickerViewDataSource,UIPickerVie
         mealDateLabel.frame = CGRectMake((screenSize.width - CGFloat(labelWidth))/2, CGFloat(mealTypeTextField.frame.size.height + mealTypeTextField.frame.origin.y + 20), CGFloat(labelWidth), 30)
         mealDateLabel.textAlignment = NSTextAlignment.Center
         
+        MealDatePickerView.delegate = self
+        MealDatePickerView.dataSource = self
+        
         mealDateTextField.frame = CGRectMake((screenSize.width - textFieldWidth)/2, mealDateLabel.frame.origin.y + mealDateLabel.frame.size.height + 5, textFieldWidth, 50)
         mealDateTextField.backgroundColor = UIColor.whiteColor()
         mealDateTextField.inputView = MealDatePickerView
@@ -226,7 +229,21 @@ class SecondViewController: UIViewController, UIPickerViewDataSource,UIPickerVie
             return mealTypesArr[row]
         }
         else if (pickerView == MealDatePickerView){
-            return "Today"
+            switch (row) {
+            case 0:
+                return "Today"
+            case 1:
+                return "Tomorrow"
+            default:
+                var calendar = NSCalendar(calendarIdentifier: NSGregorianCalendar)
+                var components = NSDateComponents()
+                components.day = row
+                var today = NSDate()
+                var newDate = calendar?.dateByAddingComponents(components, toDate:today, options:NSCalendarOptions.allZeros)
+                var mealDateFormatter = NSDateFormatter()
+                mealDateFormatter.dateFormat = "EEEE"
+                return mealDateFormatter.stringFromDate(newDate!)
+            }
         }
         var formatter = NSDateFormatter()
         formatter.dateFormat = "hh:mm a"
