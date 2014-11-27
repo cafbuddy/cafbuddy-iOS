@@ -36,6 +36,7 @@ class SecondViewController: UIViewController, UIPickerViewDataSource,UIPickerVie
     var chosenStartTime :NSDate? = nil
     var chosenEndTime :NSDate? = nil
     var chosenMealType = 0
+    var chosenMealDateOffset = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -96,7 +97,7 @@ class SecondViewController: UIViewController, UIPickerViewDataSource,UIPickerVie
         toolbarMealType.items = NSArray(array: [UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.Bordered, target: self, action:"closeInput"),UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil),UIBarButtonItem(title: "Next", style: UIBarButtonItemStyle.Bordered, target: self, action:"advanceToNextInput")])
         self.mealTypeTextField.inputAccessoryView = toolbarMealType
         
-        mealDateLabel.text = "Choose a Day."
+        mealDateLabel.text = "What day do you want to eat?"
         mealDateLabel.font = UIFont.systemFontOfSize(18)
         mealDateLabel.frame = CGRectMake((screenSize.width - CGFloat(labelWidth))/2, CGFloat(mealTypeTextField.frame.size.height + mealTypeTextField.frame.origin.y + 20), CGFloat(labelWidth), 30)
         mealDateLabel.textAlignment = NSTextAlignment.Center
@@ -107,6 +108,11 @@ class SecondViewController: UIViewController, UIPickerViewDataSource,UIPickerVie
         mealDateTextField.frame = CGRectMake((screenSize.width - textFieldWidth)/2, mealDateLabel.frame.origin.y + mealDateLabel.frame.size.height + 5, textFieldWidth, 50)
         mealDateTextField.backgroundColor = UIColor.whiteColor()
         mealDateTextField.inputView = MealDatePickerView
+        mealDateTextField.placeholder = "Choose a Day."
+        mealDateTextField.textAlignment = NSTextAlignment.Center
+        mealDateTextField.font = UIFont.systemFontOfSize(18)
+        mealDateTextField.layer.cornerRadius = 3.0
+        mealDateTextField.text = getDayofWeekForOffset(0)
         
         var toolbarDate = UIToolbar(frame: CGRectMake(0, 0, screenSize.width, CGFloat(TOOLBAR_KEYBOARD_HEIGHT)))
         toolbarMealType.items = NSArray(array: [UIBarButtonItem(title: "Previous", style: UIBarButtonItemStyle.Bordered, target: self, action:"goBackToPreviousInput"),UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil),UIBarButtonItem(title: "Next", style: UIBarButtonItemStyle.Bordered, target: self, action:"advanceToNextInput")])
@@ -126,7 +132,6 @@ class SecondViewController: UIViewController, UIPickerViewDataSource,UIPickerVie
         mealTimeTextField.frame = CGRectMake((screenSize.width - textFieldWidth)/2, mealTimeLabel.frame.origin.y + mealTimeLabel.frame.size.height + 5, textFieldWidth, 50)
         mealTimeTextField.backgroundColor = UIColor.whiteColor()
         mealTimeTextField.inputView = mealTimePickerView
-        
         mealTimeTextField.layer.cornerRadius = 3.0
         mealTimeTextField.font = UIFont.systemFontOfSize(18)
         mealTimeTextField.textAlignment = NSTextAlignment.Center
@@ -229,21 +234,7 @@ class SecondViewController: UIViewController, UIPickerViewDataSource,UIPickerVie
             return mealTypesArr[row]
         }
         else if (pickerView == MealDatePickerView){
-            switch (row) {
-            case 0:
-                return "Today"
-            case 1:
-                return "Tomorrow"
-            default:
-                var calendar = NSCalendar(calendarIdentifier: NSGregorianCalendar)
-                var components = NSDateComponents()
-                components.day = row
-                var today = NSDate()
-                var newDate = calendar?.dateByAddingComponents(components, toDate:today, options:NSCalendarOptions.allZeros)
-                var mealDateFormatter = NSDateFormatter()
-                mealDateFormatter.dateFormat = "EEEE"
-                return mealDateFormatter.stringFromDate(newDate!)
-            }
+            return getDayofWeekForOffset(row)
         }
         var formatter = NSDateFormatter()
         formatter.dateFormat = "hh:mm a"
@@ -263,6 +254,9 @@ class SecondViewController: UIViewController, UIPickerViewDataSource,UIPickerVie
             chosenEndTime = nil
             mealTimePickerView.selectRow(0, inComponent: 0, animated: false)
             mealTimePickerView.selectRow(0, inComponent: 1, animated: false)
+        }
+        else if (pickerView == MealDatePickerView) {
+            mealDateTextField.text = getDayofWeekForOffset(row)
         }
         else {
             
@@ -285,6 +279,29 @@ class SecondViewController: UIViewController, UIPickerViewDataSource,UIPickerVie
             }
             displayTimeRange()
         }
+    }
+    
+    func getDayofWeekForOffset(offset: Int) -> String {
+        
+        //if the day of the week is today
+        if (offset == 0) {
+            return "Today"
+        }
+        
+        //if the day of the week is tomorrow
+        if (offset == 1) {
+            return "Tomorrow"
+        }
+        
+        //if the day of the week is farther out than today or tomorrow
+        var calendar = NSCalendar(calendarIdentifier: NSGregorianCalendar)
+        var components = NSDateComponents()
+        components.day = offset
+        var today = NSDate()
+        var newDate = calendar?.dateByAddingComponents(components, toDate:today, options:NSCalendarOptions.allZeros)
+        var mealDateFormatter = NSDateFormatter()
+        mealDateFormatter.dateFormat = "EEEE"
+        return mealDateFormatter.stringFromDate(newDate!)
     }
     
     func chosenTimeRangeIsValid() -> Bool {
