@@ -13,7 +13,7 @@ class SecondViewController: UIViewController, UIPickerViewDataSource,UIPickerVie
     let statusBarHeight = 20;
     
     let mealTypesArr = ["Breakfast","Lunch","Dinner"]
-    let mealStartEndTimes = [["7:00","10:15"],["10:30","14:00"],["16:30","19:30"]]
+    let mealStartEndTimes = [["6:00","11:00"],["10:00","15:00"],["16:00","22:00"]]
     
     let screenSize: CGRect = UIScreen.mainScreen().bounds
     var mealTypeLabel = UILabel()
@@ -24,6 +24,10 @@ class SecondViewController: UIViewController, UIPickerViewDataSource,UIPickerVie
     var mealTimeTextField = SpecialTextField()
     var mealTimePickerView = UIPickerView()
     
+    var mealDateLabel = UILabel()
+    var mealDateTextField = SpecialTextField()
+    var MealDatePickerView = UIPickerView()
+    
     var scrollViewMain = UIScrollView()
     
     var buttonCreateMeal = UIButton()
@@ -32,6 +36,7 @@ class SecondViewController: UIViewController, UIPickerViewDataSource,UIPickerVie
     var chosenStartTime :NSDate? = nil
     var chosenEndTime :NSDate? = nil
     var chosenMealType = 0
+    var chosenMealDateOffset = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -89,25 +94,44 @@ class SecondViewController: UIViewController, UIPickerViewDataSource,UIPickerVie
         
         
         var toolbarMealType = UIToolbar(frame: CGRectMake(0, 0, screenSize.width, CGFloat(TOOLBAR_KEYBOARD_HEIGHT)))
-        toolbarMealType.items = NSArray(array: [UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.Bordered, target: self, action:"closeInput"),UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil),UIBarButtonItem(title: "Next", style: UIBarButtonItemStyle.Bordered, target: self, action:"advanceToTimeInput")])
+        toolbarMealType.items = NSArray(array: [UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.Bordered, target: self, action:"closeInput"),UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil),UIBarButtonItem(title: "Next", style: UIBarButtonItemStyle.Bordered, target: self, action:"advanceToNextInput")])
         self.mealTypeTextField.inputAccessoryView = toolbarMealType
         
+        mealDateLabel.text = "What day do you want to eat?"
+        mealDateLabel.font = UIFont.systemFontOfSize(18)
+        mealDateLabel.frame = CGRectMake((screenSize.width - CGFloat(labelWidth))/2, CGFloat(mealTypeTextField.frame.size.height + mealTypeTextField.frame.origin.y + 20), CGFloat(labelWidth), 30)
+        mealDateLabel.textAlignment = NSTextAlignment.Center
+        
+        MealDatePickerView.delegate = self
+        MealDatePickerView.dataSource = self
+        
+        mealDateTextField.frame = CGRectMake((screenSize.width - textFieldWidth)/2, mealDateLabel.frame.origin.y + mealDateLabel.frame.size.height + 5, textFieldWidth, 50)
+        mealDateTextField.backgroundColor = UIColor.whiteColor()
+        mealDateTextField.inputView = MealDatePickerView
+        mealDateTextField.placeholder = "Choose a Day."
+        mealDateTextField.textAlignment = NSTextAlignment.Center
+        mealDateTextField.font = UIFont.systemFontOfSize(18)
+        mealDateTextField.layer.cornerRadius = 3.0
+        mealDateTextField.text = getDayofWeekForOffset(0)
+        
+        var toolbarDate = UIToolbar(frame: CGRectMake(0, 0, screenSize.width, CGFloat(TOOLBAR_KEYBOARD_HEIGHT)))
+        toolbarMealType.items = NSArray(array: [UIBarButtonItem(title: "Previous", style: UIBarButtonItemStyle.Bordered, target: self, action:"goBackToPreviousInput"),UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil),UIBarButtonItem(title: "Next", style: UIBarButtonItemStyle.Bordered, target: self, action:"advanceToNextInput")])
+        self.mealDateTextField.inputAccessoryView = toolbarMealType
         
         mealTimeLabel.text = "When are you available?"
         mealTimeLabel.font = UIFont.systemFontOfSize(18)
-        mealTimeLabel.frame = CGRectMake((screenSize.width - CGFloat(labelWidth))/2, CGFloat(mealTypeTextField.frame.size.height + mealTypeTextField.frame.origin.y + 20), CGFloat(labelWidth), 30)
+        mealTimeLabel.frame = CGRectMake((screenSize.width - CGFloat(labelWidth))/2, CGFloat(mealDateTextField.frame.size.height + mealDateTextField.frame.origin.y + 20), CGFloat(labelWidth), 30)
         mealTimeLabel.textAlignment = NSTextAlignment.Center
     
         mealTimePickerView.delegate = self
         mealTimePickerView.dataSource = self
-        getPickerOptions(0)
+        getMealTypePickerOptions(0)
         mealTimePickerView.reloadAllComponents()
         
         
         mealTimeTextField.frame = CGRectMake((screenSize.width - textFieldWidth)/2, mealTimeLabel.frame.origin.y + mealTimeLabel.frame.size.height + 5, textFieldWidth, 50)
         mealTimeTextField.backgroundColor = UIColor.whiteColor()
         mealTimeTextField.inputView = mealTimePickerView
-        
         mealTimeTextField.layer.cornerRadius = 3.0
         mealTimeTextField.font = UIFont.systemFontOfSize(18)
         mealTimeTextField.textAlignment = NSTextAlignment.Center
@@ -130,6 +154,8 @@ class SecondViewController: UIViewController, UIPickerViewDataSource,UIPickerVie
         
         scrollViewMain.addSubview(mealTypeLabel)
         scrollViewMain.addSubview(mealTypeTextField)
+        scrollViewMain.addSubview(mealDateLabel)
+        scrollViewMain.addSubview(mealDateTextField)
         scrollViewMain.addSubview(mealTimeLabel)
         scrollViewMain.addSubview(mealTimeTextField)
         scrollViewMain.addSubview(buttonCreateMeal)
@@ -148,6 +174,9 @@ class SecondViewController: UIViewController, UIPickerViewDataSource,UIPickerVie
         if (mealTimeTextField.isFirstResponder()) {
             mealTimeTextField.resignFirstResponder()
         }
+        if (mealDateTextField.isFirstResponder()) {
+            mealDateTextField.resignFirstResponder()
+        }
         if (mealTypeTextField.isFirstResponder()) {
             mealTypeTextField.resignFirstResponder()
         }
@@ -156,13 +185,21 @@ class SecondViewController: UIViewController, UIPickerViewDataSource,UIPickerVie
     func goBackToPreviousInput() {
         if (mealTimeTextField.isFirstResponder()) {
             mealTimeTextField.resignFirstResponder()
+            mealDateTextField.becomeFirstResponder()
+        }
+        else if (mealDateTextField.isFirstResponder()) {
+            mealDateTextField.resignFirstResponder()
             mealTypeTextField.becomeFirstResponder()
         }
     }
-    
-    func advanceToTimeInput() {
+
+    func advanceToNextInput() {
         if (mealTypeTextField.isFirstResponder()) {
             mealTypeTextField.resignFirstResponder()
+            mealDateTextField.becomeFirstResponder()
+        }
+        else if (mealDateTextField.isFirstResponder()) {
+            mealDateTextField.resignFirstResponder()
             mealTimeTextField.becomeFirstResponder()
         }
     }
@@ -176,15 +213,18 @@ class SecondViewController: UIViewController, UIPickerViewDataSource,UIPickerVie
     }
     
     func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
-        if (pickerView == mealTypePickerView) {
+        if (pickerView == mealTypePickerView || pickerView == MealDatePickerView) {
             return 1
         }
-        return 2;
+        return 2
     }
     
     func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         if (pickerView == mealTypePickerView) {
             return 3
+        }
+        if (pickerView == MealDatePickerView) {
+            return 7
         }
         return timeRangeDates.count
     }
@@ -192,6 +232,9 @@ class SecondViewController: UIViewController, UIPickerViewDataSource,UIPickerVie
     func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
         if (pickerView == mealTypePickerView) {
             return mealTypesArr[row]
+        }
+        else if (pickerView == MealDatePickerView){
+            return getDayofWeekForOffset(row)
         }
         var formatter = NSDateFormatter()
         formatter.dateFormat = "hh:mm a"
@@ -204,13 +247,16 @@ class SecondViewController: UIViewController, UIPickerViewDataSource,UIPickerVie
         if (pickerView == mealTypePickerView) {
             chosenMealType = row
             mealTypeTextField.text = mealTypesArr[row]
-            getPickerOptions(row)
+            getMealTypePickerOptions(row)
             mealTimePickerView.reloadAllComponents()
             mealTimeTextField.text = ""
             chosenStartTime = nil
             chosenEndTime = nil
             mealTimePickerView.selectRow(0, inComponent: 0, animated: false)
             mealTimePickerView.selectRow(0, inComponent: 1, animated: false)
+        }
+        else if (pickerView == MealDatePickerView) {
+            mealDateTextField.text = getDayofWeekForOffset(row)
         }
         else {
             
@@ -235,6 +281,29 @@ class SecondViewController: UIViewController, UIPickerViewDataSource,UIPickerVie
         }
     }
     
+    func getDayofWeekForOffset(offset: Int) -> String {
+        
+        //if the day of the week is today
+        if (offset == 0) {
+            return "Today"
+        }
+        
+        //if the day of the week is tomorrow
+        if (offset == 1) {
+            return "Tomorrow"
+        }
+        
+        //if the day of the week is farther out than today or tomorrow
+        var calendar = NSCalendar(calendarIdentifier: NSGregorianCalendar)
+        var components = NSDateComponents()
+        components.day = offset
+        var today = NSDate()
+        var newDate = calendar?.dateByAddingComponents(components, toDate:today, options:NSCalendarOptions.allZeros)
+        var mealDateFormatter = NSDateFormatter()
+        mealDateFormatter.dateFormat = "EEEE"
+        return mealDateFormatter.stringFromDate(newDate!)
+    }
+    
     func chosenTimeRangeIsValid() -> Bool {
         return chosenStartTime!.compare(chosenEndTime!) != NSComparisonResult.OrderedDescending
         
@@ -248,7 +317,7 @@ class SecondViewController: UIViewController, UIPickerViewDataSource,UIPickerVie
         mealTimeTextField.text = theString
     }
     
-    func getPickerOptions(mealType: Int) {        
+    func getMealTypePickerOptions(mealType: Int) {
         //var stringLength = countElements(mealStartEndTimes[mealType][0])
         var stringStart = mealStartEndTimes[mealType][0]
         //stringStart = stringStart.substringToIndex(advance(stringStart.startIndex, stringLength-3))

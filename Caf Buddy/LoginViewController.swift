@@ -258,7 +258,7 @@ class LogInViewController: UIViewController,PFLogInViewControllerDelegate,PFSign
         
         var floatNumMeals = Float(self.numMeals)
         //var cellHeight = self.view.frame.size.height
-        mainTableView.rowHeight = (mainTableView.frame.size.height - CGFloat(NAV_BAR_HEIGHT) - CGFloat(STATUS_BAR_HEIGHT) - CGFloat(49))/3
+        mainTableView.rowHeight = (mainTableView.frame.size.height - CGFloat(NAV_BAR_HEIGHT) - CGFloat(STATUS_BAR_HEIGHT) - CGFloat(49))/5
         //mainTableView.rowHeight = CGFloat( cellheight - 69)/CGFloat(floatNumMeals)
         
         //updateInterface()
@@ -389,7 +389,7 @@ class LogInViewController: UIViewController,PFLogInViewControllerDelegate,PFSign
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
+        return 2
     }
     
 
@@ -397,9 +397,20 @@ class LogInViewController: UIViewController,PFLogInViewControllerDelegate,PFSign
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //NSLog("here")
         //println("Num Rows in selection numMeals = \(self.numMeals)")
-        return countElements(ifMatched)
+        //return countElements(ifMatched)
         //return self.numMeals
         //return 4
+        return 1
+    }
+    
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        //if first section
+        if (section == 0) {
+            return "Upcoming Meals"
+        }
+        
+        //if second section
+        return "Pending Matches"
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -434,7 +445,7 @@ class LogInViewController: UIViewController,PFLogInViewControllerDelegate,PFSign
         
         //        println(self.meals.count)
         
-        if (ifMatched[indexPath.row]==true) {
+        /*if (ifMatched[indexPath.row]==true) {
             
             customcell.loadItem("\(self.meals[indexPath.row])",rangeOfTIme: "",timeOfMeal: "\(self.startTime[indexPath.row])",matching: "\(self.matchString[indexPath.row])")
             
@@ -443,7 +454,7 @@ class LogInViewController: UIViewController,PFLogInViewControllerDelegate,PFSign
             
             customcell.loadItem("\(self.meals[indexPath.row])",rangeOfTIme: "\(self.mealTimeRange[indexPath.row])",timeOfMeal: "",matching: "\(self.matchString[indexPath.row])")
             
-        }
+        }*/
         
         return customcell
     }
