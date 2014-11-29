@@ -39,53 +39,52 @@ class LogInViewController: UIViewController,PFLogInViewControllerDelegate,PFSign
     override func viewDidLoad() {
         super.viewDidLoad()
         println("View Did Load")
-        // Do any additional setup after loading the view, typically from a nib.
-        //createLayout()
-        var currentUser = PFUser.currentUser()
-        
-        
-        if(currentUser == nil ){
-        
-        }
-        else{
-            var emailVerified = currentUser.objectForKey("emailVerified") as Bool
-            if(emailVerified){
-        navigationController?.navigationBar.barTintColor = colorWithHexString(COLOR_ACCENT_BLUE)
-        navigationItem.title = "My Meals"
-        navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
-        
-        self.mainTableView.registerClass(CustomTableViewCell.self, forCellReuseIdentifier: "cell")
-        initInterface()
-            }
-        }
+        startMealScreen()
     }
     
+    func startMealScreen()
+    {
+        mainTableView.allowsSelection = true
+        if var currentUser = PFUser.currentUser()
+        {
+           
+           if var emailVerified = currentUser.objectForKey("emailVerified") as? Bool
+           {
+                println("Current User is \(currentUser.email)")
+                navigationController?.navigationBar.barTintColor = colorWithHexString(COLOR_ACCENT_BLUE)
+                navigationItem.title = "My Meals"
+                navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
+                
+                self.mainTableView.registerClass(CustomTableViewCell.self, forCellReuseIdentifier: "cell")
+                
+                initInterface()
+           }
+            else
+            {
+                showLoginView()
+                showEmailNotVerifiedAlert()
+            }
+        }
+        else
+        {
+            showLoginView()
+        }
+    }
+    func showEmailNotVerifiedAlert()
+    {
+        let alert = UIAlertView()
+        alert.title = "Email Not Verified"
+        alert.message = "Please Check and Verify Your Email Before Logging In"
+        alert.addButtonWithTitle("Cancel")
+        alert.show()
+    }
     override func viewDidAppear(animated: Bool) {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadTableFromServer", name:ReloadMealTableNotification, object: nil)
 
         //println("email verified is \(emailVerified)")
         super.viewDidAppear(animated)
         println("View Did Appear")
-        var currentUser = PFUser.currentUser()
-        if(currentUser == nil ){
-            showLoginView()
-        }
-        else {
-            var emailVerified = currentUser.objectForKey("emailVerified") as Bool
-            if(!emailVerified)
-            {
-                showLoginView()
-            }
-            else{
-            println("Current User is \(currentUser.email)")
-            reloadTableFromServer()
-            //goToMainFeed()
-            }
-        }
-    }
-    
-    func goToMainFeed() {
-        self.performSegueWithIdentifier("fromLoginToFeed", sender: self)
+        startMealScreen()
     }
     
     func showLoginView()
@@ -295,7 +294,7 @@ class LogInViewController: UIViewController,PFLogInViewControllerDelegate,PFSign
                 {
                     self.numMeals = jsonObject.count
                     var meal = jsonObject[i]["type"].stringValue
-                    self.matchId.append(jsonObject[i].stringValue)//Adding Found matchIds to array
+                    self.matchId.append(jsonObject[i]["matchId"].stringValue)//Adding Found matchIds to array
                     if meal=="0" {
                         self.meals.append(self.breakfast)
                     } else if meal=="1" {
@@ -406,8 +405,18 @@ class LogInViewController: UIViewController,PFLogInViewControllerDelegate,PFSign
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
                     //let chatVC = ChatViewController()
                     //self.presentViewController(chatVC, animated: true, completion: nil)
-        let chatVC = ChatViewController()
-        navigationController?.pushViewController(chatVC, animated: true )
+         if (ifMatched[indexPath.row]==true) {
+        let chatVC = ChatViewController(myMatchId: self.matchId[indexPath.row])
+        UIView.beginAnimations("ShowDetails", context: nil)
+        UIView.setAnimationCurve(UIViewAnimationCurve.EaseInOut)
+        UIView.setAnimationDuration(0.5)
+        navigationController?.pushViewController(chatVC, animated: false)
+        let theView = navigationController?.view
+        UIView.setAnimationTransition(UIViewAnimationTransition.FlipFromRight, forView: theView!, cache: false)
+        //UIView.setAnimationTransition(UIViewAnimationTransition.CurlUp, forView: theView!, cache: false)
+        UIView.commitAnimations()
+        mainTableView.allowsSelection = false
+        }
     }
     func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
         

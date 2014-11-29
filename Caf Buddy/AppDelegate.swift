@@ -7,12 +7,15 @@
 //
 
 import UIKit
+import AVFoundation
 let ReloadMealTableNotification = "ReloadMealTableNotification"
+let ReloadChatTableNotification = "ReloadChatTableNotification"
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    
+    var audioPlayer = AVAudioPlayer()
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
@@ -57,9 +60,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         println(error.localizedDescription)
     }
     func application(application: UIApplication!, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]!) {
-        PFPush.handlePush(userInfo)
-        NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: ReloadMealTableNotification, object: self))
-        println("received remote notification \(userInfo)")
+        
+        //println("received remote notification \(userInfo)")
+        let dict = userInfo as NSDictionary
+        if(dict.objectForKey("pushType") as String == "Chat")
+        {
+        let aps: AnyObject? = dict.objectForKey("aps")
+        let recievedMessage = aps?.objectForKey("alert") as String
+        let recievedMatchId = dict.objectForKey("matchId") as String
+        var chatSound = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("MealChat", ofType: "wav")!)
+        audioPlayer = AVAudioPlayer(contentsOfURL: chatSound, error: nil)
+        audioPlayer.prepareToPlay()
+        audioPlayer.play()
+        //println(recievedMessage)
+        //println(recievedMatchId)
+        
+        DataModel.addMessageToPlist("buddy", message: recievedMessage, matchId: recievedMatchId)
+        NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: ReloadChatTableNotification, object: self))
+        }
+        else
+        {
+          NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: ReloadMealTableNotification, object: self))
+          PFPush.handlePush(userInfo)
+        }
     }
     
     func applicationWillResignActive(application: UIApplication) {

@@ -97,7 +97,7 @@ class SecondViewController: UIViewController, UIPickerViewDataSource,UIPickerVie
         mealTimeLabel.font = UIFont.systemFontOfSize(18)
         mealTimeLabel.frame = CGRectMake((screenSize.width - CGFloat(labelWidth))/2, CGFloat(mealTypeTextField.frame.size.height + mealTypeTextField.frame.origin.y + 20), CGFloat(labelWidth), 30)
         mealTimeLabel.textAlignment = NSTextAlignment.Center
-        
+    
         mealTimePickerView.delegate = self
         mealTimePickerView.dataSource = self
         getPickerOptions(0)
