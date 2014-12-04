@@ -353,8 +353,11 @@ class SecondViewController: UIViewController, UIPickerViewDataSource,UIPickerVie
     }
     
     func sendMealToServer(sender:UIButton!) {
-        
-        //this works because chosen start time and chosen end time are actuall found using real date object instead of the  string one since we have two arrays
+        if (chosenStartTime == nil) || (chosenEndTime == nil)
+        {
+            showAlert("Incomplete Details","Please Completely Fill the form before submitting")
+            return
+        }
         var theMeal = PFObject(className:"Meals")
         theMeal["matched"] = false
         theMeal["start"] = chosenStartTime!
@@ -362,6 +365,7 @@ class SecondViewController: UIViewController, UIPickerViewDataSource,UIPickerVie
         theMeal["end"] = chosenEndTime
         theMeal["type"] = chosenMealType
         theMeal["userId"] = PFUser.currentUser()
+        theMeal["newChats"] = "false"
         //theMeal["userId"] = PFUser.currentUser().objectId
         theMeal.saveInBackgroundWithBlock {
             
@@ -370,7 +374,7 @@ class SecondViewController: UIViewController, UIPickerViewDataSource,UIPickerVie
             if (success != nil) {
                 
                 NSLog("Object created with id: \(theMeal.objectId)")
-                
+                self.tabBarController?.selectedIndex = 0
             } else {
                 
                 NSLog("%@", error)
@@ -380,10 +384,9 @@ class SecondViewController: UIViewController, UIPickerViewDataSource,UIPickerVie
         }
         
         
-        self.tabBarController?.selectedIndex = 0
+        
         //var fvc = self.tabBarController?.selectedViewController as FirstViewController
         //fvc.reloadTableFromServer()
-        
     }
 
 

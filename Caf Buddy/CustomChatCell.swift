@@ -2,7 +2,7 @@
 //  CustomChatCell.swift
 //  Caf Buddy
 //
-//  Created by Armaan Bindra2 on 11/26/14.
+//  Created by Armaan Bindra on 11/26/14.
 //  Copyright (c) 2014 St. Olaf Acm. All rights reserved.
 //
 
@@ -99,10 +99,10 @@ func bubbleImageMake() -> (incoming: UIImage, incomingHighlighed: UIImage, outgo
     let capInsetsIncoming = UIEdgeInsets(top: 17, left: 26.5, bottom: 17.5, right: 21)
     let capInsetsOutgoing = UIEdgeInsets(top: 17, left: 21, bottom: 17.5, right: 26.5)
     
-    let incoming = coloredImage(maskIncoming, 39/255.0, 174/255.0, 96/255.0, 1).resizableImageWithCapInsets(capInsetsIncoming)
-    let incomingHighlighted = coloredImage(maskIncoming, 206/255.0, 206/255.0, 210/255.0, 1).resizableImageWithCapInsets(capInsetsIncoming)
-    let outgoing = coloredImage(maskOutgoing, 41/255.0, 128/255.0, 185/255.0, 1).resizableImageWithCapInsets(capInsetsOutgoing)
-    let outgoingHighlighted = coloredImage(maskOutgoing, 32/255.0, 96/255.0, 200/255.0, 1).resizableImageWithCapInsets(capInsetsOutgoing)
+    let incoming = coloredImage(maskIncoming, 223/255.0, 222/255.0, 229/255.0, 1).resizableImageWithCapInsets(capInsetsIncoming)
+    let incomingHighlighted = coloredImage(maskIncoming, 223/255.0, 222/255.0, 229/255.0, 0.7).resizableImageWithCapInsets(capInsetsIncoming)
+    let outgoing = coloredImage(maskOutgoing, 58/255.0, 113/255.0, 246/255.0, 1).resizableImageWithCapInsets(capInsetsOutgoing)
+    let outgoingHighlighted = coloredImage(maskOutgoing, 58/255.0, 113/255.0, 246/255.0, 0.7).resizableImageWithCapInsets(capInsetsOutgoing)
     
     return (incoming, incomingHighlighted, outgoing, outgoingHighlighted)
 }

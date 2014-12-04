@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  Caf Buddy
 //
-//  Created by Armaan Bindra2 on 11/9/14.
+//  Created by Armaan Bindra on 11/9/14.
 //  Copyright (c) 2014 St. Olaf Acm. All rights reserved.
 //
 
@@ -10,11 +10,12 @@ import UIKit
 import AVFoundation
 let ReloadMealTableNotification = "ReloadMealTableNotification"
 let ReloadChatTableNotification = "ReloadChatTableNotification"
+let LoadChatViewControllerNotification = "LoadChatViewControllerNotification"
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    
+    var payload = NSDictionary()
     var audioPlayer = AVAudioPlayer()
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
@@ -35,13 +36,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let types:UIUserNotificationType = UIUserNotificationType.Badge | UIUserNotificationType.Alert | UIUserNotificationType.Sound
         var settings:UIUserNotificationSettings = UIUserNotificationSettings(forTypes: types, categories: nil)
         UIApplication.sharedApplication().registerUserNotificationSettings(settings)
+        println(window?.rootViewController?.description)
+        if let notificationPaylod =  launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? NSDictionary
+        {
+
+            let myMatchId = notificationPaylod.objectForKey("matchId") as? String
+            
+            launchChatScreen(myMatchId!)
+        }
         
-        //let notificationPayload = launchOptions![UIApplicationLaunchOptionsRemoteNotificationKey] as NSDictionary
-        
-        
-        
-        
+
         return true
+    }
+    
+    func launchChatScreen(myMatchId:String)
+    {
+        let chatVC = LogInViewController(chatScreen: true, matchId: myMatchId)
+        let tabController = window?.rootViewController
+        tabController?.presentViewController(chatVC, animated: false, completion: nil)
     }
     
     func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
@@ -75,7 +87,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //println(recievedMessage)
         //println(recievedMatchId)
         
-        DataModel.addMessageToPlist("buddy", message: recievedMessage, matchId: recievedMatchId)
+        //DataModel.addMessageToPlist("buddy", message: recievedMessage, matchId: recievedMatchId)
         NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: ReloadChatTableNotification, object: self))
         }
         else

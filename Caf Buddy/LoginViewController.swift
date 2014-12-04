@@ -2,7 +2,7 @@
 //  LoginViewController.swift
 //  Caf Buddy
 //
-//  Created by Armaan Bindra2 on 11/15/14.
+//  Created by Armaan Bindra on 11/15/14.
 //  Copyright (c) 2014 St. Olaf Acm. All rights reserved.
 //
 
@@ -19,31 +19,46 @@ extension String {
     }
 }
 
+let BREAKFAST = "Breakfast"
+let LUNCH = "Lunch"
+let DINNER = "Dinner"
+
 class LogInViewController: UIViewController,PFLogInViewControllerDelegate,PFSignUpViewControllerDelegate,UITableViewDelegate,UITableViewDataSource {
     
     //@IBOutlet weak var mainTableView: UITableView!
     var mainTableView = UITableView()
+    var mealsArrayU = NSMutableArray()
+    var mealsArrayP = NSMutableArray()
     var numMeals = 0
-    var meals: [String] = []
-    var ifMatched: [Bool] = []
-    var startTime: [String] = []
-    var endTime: [String] = []
-    var matchString: [String] = []
-    var mealTimeRange: [String] = []
-    var matchId: [String] = []
-    var breakfast = "Breakfast"
-    var lunch = "Lunch"
-    var dinner = "Dinner"
-    
-    
+    var showChatScreen = false
+    var chatScreenMatchId = ""
     override func viewDidLoad() {
         super.viewDidLoad()
         println("View Did Load")
         startMealScreen()
+        
     }
     
+    init(chatScreen:Bool,matchId:String)
+    {
+        let alert = UIAlertView()
+        alert.title = "New Message"
+        alert.message = "You got a new message from your buddy!"
+        alert.addButtonWithTitle("Cancel")
+        alert.show()
+        showChatScreen = chatScreen
+        chatScreenMatchId = matchId
+       super.init(nibName: nil, bundle: nil)
+        
+    }
+
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+
     func startMealScreen()
     {
+        println("Start Meal Screen Called")
         mainTableView.allowsSelection = true
         if var currentUser = PFUser.currentUser()
         {
@@ -78,14 +93,24 @@ class LogInViewController: UIViewController,PFLogInViewControllerDelegate,PFSign
         alert.addButtonWithTitle("Cancel")
         alert.show()
     }
+    
+    func showChatViewController(matchId:String)
+    {
+        let chatVC = ChatViewController(myMatchId: matchId )
+        navigationController?.pushViewController(chatVC, animated: false)
+    }
     override func viewDidAppear(animated: Bool) {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadTableFromServer", name:ReloadMealTableNotification, object: nil)
-
         //println("email verified is \(emailVerified)")
         super.viewDidAppear(animated)
-        println("View Did Appear")
-        startMealScreen()
+        println("View Did Appear Called")
+        if(showChatScreen){
+            showChatViewController(chatScreenMatchId) }
+        else{
+            startMealScreen()
+        }
     }
+    
     
     func showLoginView()
     {
@@ -98,7 +123,8 @@ class LogInViewController: UIViewController,PFLogInViewControllerDelegate,PFSign
         logInViewController.signUpController = signUpViewController
         presentViewController(logInViewController, animated: true, completion: nil)
     }
-    
+    // MARK: Login View Controller Delegate Methods
+
     func logInViewController(logInController: PFLogInViewController!, shouldBeginLogInWithUsername username: String!, password: String!) -> Bool {
         
         if ((username != nil) && (password != nil) && (countElements(username) != 0) && (countElements(password) != 0))
@@ -128,8 +154,7 @@ class LogInViewController: UIViewController,PFLogInViewControllerDelegate,PFSign
         installation["userId"] = PFUser.currentUser()
         installation.saveInBackground()
         //goToMainFeed()
-        updateInterface()
-        //reloadTableFromServer()
+        //updateInterface()
     }
     
     
@@ -281,30 +306,27 @@ class LogInViewController: UIViewController,PFLogInViewControllerDelegate,PFSign
                 
                 //Empty All Arrays
                 
-                self.meals = []
-                self.ifMatched = []
-                self.startTime = []
-                self.endTime = []
-                self.matchString = []
-                self.mealTimeRange = []
-                self.matchId = []
-
+                self.mealsArrayU.removeAllObjects()
+                self.mealsArrayP.removeAllObjects()
                 //println("NumMeals is \(self.numMeals)")
                 for (var i=0;i<jsonObject.count;i++)
                 {
                     self.numMeals = jsonObject.count
                     var meal = jsonObject[i]["type"].stringValue
-                    self.matchId.append(jsonObject[i]["matchId"].stringValue)//Adding Found matchIds to array
-                    if meal=="0" {
-                        self.meals.append(self.breakfast)
-                    } else if meal=="1" {
-                        self.meals.append(self.lunch)
-                    } else if meal=="2" {
-                        self.meals.append(self.dinner)
-                    }
                     
+                    
+                    var mealItem = Dictionary<String, String>()
+                    mealItem["matchId"] = jsonObject[i]["matchId"].stringValue//Adding Found matchIds to array
+                    if meal=="0" {
+                        mealItem["meals"] = BREAKFAST
+                    } else if meal=="1" {
+                        mealItem["meals"] = LUNCH
+                    } else if meal=="2" {
+                        mealItem["meals"] = DINNER
+                    }
+                    mealItem["mealId"] = jsonObject[i]["objectId"].stringValue
                     if !(jsonObject[i]["matched"].stringValue=="true") {
-                        self.ifMatched.append(false)
+                        mealItem["ifMatched"] = "false"
                         var sTime = jsonObject[i]["start"]["iso"].stringValue
                         var formatterS = NSDateFormatter()
                         formatterS.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
@@ -313,7 +335,7 @@ class LogInViewController: UIViewController,PFLogInViewControllerDelegate,PFSign
                         formatterS.timeZone = NSTimeZone(forSecondsFromGMT: NSTimeZone.localTimeZone().secondsFromGMT)
                         formatterS.dateFormat = "hh:mm a"
                         var localSTime = formatterS.stringFromDate(dateS!)
-                        self.startTime.append(localSTime)
+                        mealItem["startTime"] = localSTime
                         var eTime = jsonObject[i]["end"]["iso"].stringValue
                         var formatterE = NSDateFormatter()
                         formatterE.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
@@ -322,9 +344,9 @@ class LogInViewController: UIViewController,PFLogInViewControllerDelegate,PFSign
                          formatterE.timeZone = NSTimeZone(forSecondsFromGMT: NSTimeZone.localTimeZone().secondsFromGMT)
                         formatterE.dateFormat = "hh:mm a"
                         var localETime = formatterE.stringFromDate(dateE!)
-                        self.endTime.append(localETime)
-                        self.matchString.append("Finding Match")
-                        self.mealTimeRange.append("\(self.startTime[i]) - \(self.endTime[i])")
+                        mealItem["endTime"] = localETime
+                        mealItem["matchString"] = "Finding Match"
+                        mealItem["mealTimeRange"] = "\(localSTime) - \(localETime)"
                     }
                     else {
                         var sTime = jsonObject[i]["start"]["iso"].stringValue
@@ -335,30 +357,31 @@ class LogInViewController: UIViewController,PFLogInViewControllerDelegate,PFSign
                         formatterS.timeZone = NSTimeZone(forSecondsFromGMT: NSTimeZone.localTimeZone().secondsFromGMT)
                         formatterS.dateFormat = "hh:mm a"
                         var localSTime = formatterS.stringFromDate(dateS!)
-                        /*
-                        var sTime = jsonObject[i]["start"]["iso"].stringValue
-                        var formatterS = NSDateFormatter()
-                        formatterS.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
-                        var dateS = formatterS.dateFromString(sTime)
-                        formatterS.dateFormat = "hh:mm a"
-                        var localSTime = formatterS.stringFromDate(dateS!)
-                        */
-                        self.startTime.append(localSTime)
-                        self.endTime.append("")
-                        self.ifMatched.append(true)
-                        self.matchString.append("Match Found")
-                        self.mealTimeRange.append("")
+                        mealItem["startTime"] =  localSTime
+                        mealItem["endTime"] = ""
+                        mealItem["ifMatched"] = "true"
+                        mealItem["matchString"] = "Match Found"
+                        mealItem["mealTimeRange"] = ""
+                    }
+                    
+                    if (jsonObject[i]["matched"].stringValue=="true")
+                    {
+                        self.mealsArrayU.addObject(mealItem)
+                    }
+                    else if(jsonObject[i]["matched"].stringValue=="false")
+                    {
+                        self.mealsArrayP.addObject(mealItem)
                     }
                 }
-                //println("Here is the meals array \(self.meals)")
-                //println("Here is the startTime array \(self.startTime)")
-                //println("Here is the endTime array \(self.endTime)")
-                println(" ifMatched.count = \(self.ifMatched.count)")
-                //self.mainTableView.reloadData()
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                //println(self.mealsArrayU)
+                //println("Pause")
+                //println(self.mealsArrayP)
+                self.mainTableView.reloadData()
+                //self.updateInterface()
+                /*dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     self.mainTableView.reloadData()
-                })
-                //println("Tried to Call Reload Data")
+                })*/
+                
             }
             else{
                 println("error")
@@ -393,17 +416,59 @@ class LogInViewController: UIViewController,PFLogInViewControllerDelegate,PFSign
     }
     
 
-    
+    // MARK: Table Methods
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        //NSLog("here")
-        //println("Num Rows in selection numMeals = \(self.numMeals)")
-        //return countElements(ifMatched)
-        //return self.numMeals
-        //return 4
-        return 1
+        if section == 0
+        {
+        if mealsArrayU.count == 0 {
+            return 1}
+        return mealsArrayU.count
+        }
+        if mealsArrayP.count == 0 { return 1}
+        return mealsArrayP.count
     }
     
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    func tableView(tableView: UITableView!, canEditRowAtIndexPath indexPath: NSIndexPath!) -> Bool {
+        if indexPath.section == 1
+        {
+            if mealsArrayP.count == 0 { return false}
+            return true
+        }
+        return false
+    }
+    
+    func tableView(tableView: UITableView!, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath!) {
+        if (editingStyle == UITableViewCellEditingStyle.Delete) {
+            
+            var query = PFQuery(className:"Meals")
+            query.whereKey("objectId", equalTo: mealsArrayP[indexPath.row]["mealId"] as String)
+            mealsArrayP.removeObjectAtIndex(indexPath.row)
+            self.mainTableView.reloadData()
+            query.findObjectsInBackgroundWithBlock {
+                (objects: [AnyObject]!, error: NSError!) -> Void in
+                if error == nil {
+                    // The find succeeded.
+                    NSLog("Successfully retrieved \(objects.count) scores.")
+                    // Do something with the found objects
+                    for object in objects {
+                        NSLog("%@", object.objectId)
+                        object.deleteInBackgroundWithBlock({
+                            (succeeded: Bool, error: NSError!) in
+                            if succeeded
+                            {
+                                //self.reloadTableFromServer()
+                            }
+                        })
+                    }
+                } else {
+                    // Log details of the failure
+                    NSLog("Error: %@ %@", error, error.userInfo!)
+                }
+            }
+        }
+    }
+
+    /*func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         //if first section
         if (section == 0) {
             return "Upcoming Meals"
@@ -411,13 +476,52 @@ class LogInViewController: UIViewController,PFLogInViewControllerDelegate,PFSign
         
         //if second section
         return "Pending Matches"
+    }*/
+    
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        var view = UIView(frame: CGRectMake(0, 0, tableView.frame.size.width, 18))
+        /* Create custom view to display section header... */
+        var label = UILabel()
+        label.font = UIFont.boldSystemFontOfSize(16.0)
+        label.textAlignment = NSTextAlignment.Center
+        label.frame = CGRectMake(0, 0, tableView.frame.size.width, 50)
+        var string = "Test"
+        if (section == 0) {
+            string = "Upcoming Meals"
+        }
+        else{
+        //if second section
+        string = "Pending Matches"
+        }
+        /* Section header is in 0th index... */
+        label.text = string
+        view.addSubview(label)
+        view.backgroundColor = colorWithHexString(COLOR_MAIN_BACKGROUND_OFFWHITE)
+        return view;
     }
     
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 50.0
+    }
+    
+    
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-                    //let chatVC = ChatViewController()
-                    //self.presentViewController(chatVC, animated: true, completion: nil)
-         if (ifMatched[indexPath.row]==true) {
-        let chatVC = ChatViewController(myMatchId: self.matchId[indexPath.row])
+        
+
+        var mealsArray:NSMutableArray!
+        if (indexPath.section == 0) {mealsArray = mealsArrayU
+            if mealsArrayU.count == 0 {
+                return}
+        }
+        else {mealsArray = mealsArrayP
+            if mealsArrayP.count == 0 {
+                return}
+        }
+        
+        if( mealsArray[indexPath.row]["ifMatched"] as String == "true" )
+         {
+        //let chatVC = ChatViewController(myMatchId: mealsArray[indexPath.row]["matchId"] as String )
+        let chatVC = ChatViewControllerTest(myMatchId: mealsArray[indexPath.row]["matchId"] as String )
         UIView.beginAnimations("ShowDetails", context: nil)
         UIView.setAnimationCurve(UIViewAnimationCurve.EaseInOut)
         UIView.setAnimationDuration(0.5)
@@ -433,29 +537,42 @@ class LogInViewController: UIViewController,PFLogInViewControllerDelegate,PFSign
         
     }
     
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return 180.0
+    }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var customcell:CustomTableViewCell = tableView.dequeueReusableCellWithIdentifier("cell") as CustomTableViewCell
+        var customcell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as CustomTableViewCell
         
-        //var cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as CustomTableViewCell
         
-        //customcell.whichMeal.text = self.meals[indexPath.row]
         
-        //customcell.loadItem("test test s df s dfsdf")
+        var mealsArray:NSMutableArray!
+        if (indexPath.section == 0) {mealsArray = mealsArrayU
+            if mealsArrayU.count == 0
+            {
+                customcell.loadItem("You have",rangeOfTime: "",timeOfMeal: "NO",matching: "Upcoming Meals!!")
+                return customcell
+            }
+        }
+        else {mealsArray = mealsArrayP
         
-        //        println(self.meals.count)
-        
-        /*if (ifMatched[indexPath.row]==true) {
-            
-            customcell.loadItem("\(self.meals[indexPath.row])",rangeOfTIme: "",timeOfMeal: "\(self.startTime[indexPath.row])",matching: "\(self.matchString[indexPath.row])")
-            
-            
+            if mealsArrayP.count == 0
+            {
+                customcell.loadItem("You have",rangeOfTime: "",timeOfMeal: "NO",matching: "Pending Matches!!")
+                return customcell
+            }
+        }
+        println(mealsArray)
+        customcell.whichMeal.text = mealsArray[indexPath.row]["meals"] as? String
+        var tempMealType = mealsArray[indexPath.row]["meals"] as String
+        var tempStartTime = mealsArray[indexPath.row]["startTime"] as String
+        var tempMatchingString = mealsArray[indexPath.row]["matchString"] as String!
+        var tempMealRange = mealsArray[indexPath.row]["mealTimeRange"] as String
+        if (mealsArray[indexPath.row]["ifMatched"] as String == "true") {
+            customcell.loadItem("\(tempMealType)",rangeOfTime: "",timeOfMeal: "\(tempStartTime)",matching: "\(tempMatchingString)")
         } else {
-            
-            customcell.loadItem("\(self.meals[indexPath.row])",rangeOfTIme: "\(self.mealTimeRange[indexPath.row])",timeOfMeal: "",matching: "\(self.matchString[indexPath.row])")
-            
-        }*/
-        
+            customcell.loadItem("\(tempMealType)",rangeOfTime: "\(tempMealRange)",timeOfMeal: "",matching: "\(tempMatchingString)")
+        }
         return customcell
     }
 

@@ -2,7 +2,7 @@
 //  SpecialTextField.swift
 //  Caf Buddy
 //
-//  Created by Armaan Bindra2 on 11/15/14.
+//  Created by Armaan Bindra on 11/15/14.
 //  Copyright (c) 2014 St. Olaf Acm. All rights reserved.
 //
 

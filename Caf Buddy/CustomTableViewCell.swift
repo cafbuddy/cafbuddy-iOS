@@ -16,13 +16,16 @@ class CustomTableViewCell: UITableViewCell {
     var mealTime = UILabel()
     var isMatched = UILabel()
     
-    func loadItem(theMeal: String, rangeOfTIme: String, timeOfMeal: String, matching: String) {
+    func loadItem(theMeal: String, rangeOfTime: String, timeOfMeal: String, matching: String) {
+        println("load item called")
+        println(theMeal)
+        println(timeOfMeal)
         whichMeal.text = theMeal
         whichMeal.font = UIFont.systemFontOfSize(22)
         whichMeal.textAlignment = NSTextAlignment.Center
         whichMeal.frame = CGRectMake(0, 0, contentView.frame.size.width, 50)
         
-        timeRange.text = rangeOfTIme
+        timeRange.text = rangeOfTime
         timeRange.textAlignment = NSTextAlignment.Center
         timeRange.font = UIFont.systemFontOfSize(20)
         timeRange.frame = CGRectMake(0, whichMeal.frame.size.height + whichMeal.frame.origin.y + 5, contentView.frame.size.width, 30)
@@ -44,17 +47,17 @@ class CustomTableViewCell: UITableViewCell {
         contentView.addSubview(mealTime)
         contentView.addSubview(isMatched)
     }
-
-    //override func awakeFromNib() {
-       // super.awakeFromNib()
-        /*
+    /*
+    override func awakeFromNib() {
+        super.awakeFromNib()
+    
         whichMeal.setTranslatesAutoresizingMaskIntoConstraints(false)
         timeRange.setTranslatesAutoresizingMaskIntoConstraints(false)
         mealTime.setTranslatesAutoresizingMaskIntoConstraints(false)
         isMatched.setTranslatesAutoresizingMaskIntoConstraints(false)
-*/
+        //self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.width, 100.0)
     
-        /*
+    
         self.contentView.addSubview(whichMeal)
         contentView.addSubview(timeRange)
         contentView.addSubview(mealTime)
@@ -62,17 +65,17 @@ class CustomTableViewCell: UITableViewCell {
         
         var viewsDict = ["meal" : whichMeal, "availableTime" : timeRange, "time" : mealTime, "match" : isMatched]
         
-        //whichMeal.frame = CGRectMake(10, self.frame.height-10, 40, 15)
+        whichMeal.frame = CGRectMake(10, self.frame.height-10, 40, 15)
         
         timeRange.frame = CGRectMake(10, self.frame.height-30, 40, 15)
         mealTime.frame = CGRectMake(10, self.frame.height-30, 40, 15)
-        isMatched.frame = CGRectMake(self.frame.width-50, self.frame.height-30, 40, 15)*/
+        isMatched.frame = CGRectMake(self.frame.width-50, self.frame.height-30, 40, 15)
         
-        /*contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[match]-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[match]-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-[meal]-[availableTime]-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-[meal]-[time]-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-[meal]-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-[availableTime]-[match]-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
-        contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-[time]-[match]-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))*/
-   // }
+        contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-[time]-[match]-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDict))
+    }*/
 }
