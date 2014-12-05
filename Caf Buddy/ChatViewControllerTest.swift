@@ -26,7 +26,7 @@ class ChatViewControllerTest: JSQMessagesViewController, UIAlertViewDelegate {
     var matchId = ""
     var friendId = ""
     var userId = ""
-    var chatLoadTimer = NSTimer()
+    var chatLoadTimer:NSTimer!
     var messageCount =  0
     var audioPlayer = AVAudioPlayer()
     var startCounter = 0
@@ -44,7 +44,6 @@ class ChatViewControllerTest: JSQMessagesViewController, UIAlertViewDelegate {
         var chatSound = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("MealChat", ofType: "wav")!)
         audioPlayer = AVAudioPlayer(contentsOfURL: chatSound, error: nil)
         //self.inputToolbar.contentView.leftBarButtonItemWidth = 70.0
-        
     }
 
     required init(coder aDecoder: NSCoder) {
@@ -135,10 +134,23 @@ class ChatViewControllerTest: JSQMessagesViewController, UIAlertViewDelegate {
         }
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        var backButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Done, target: self, action: "backButton") //Use a selector
+        navigationItem.leftBarButtonItem = backButton
+    }
+    
+    func backButton()
+    {
+        chatLoadTimer.invalidate()
+        println("Popped Stuff")
+        navigationController?.popToRootViewControllerAnimated(true)
+    }
+    
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        let myTimer = NSTimer(timeInterval: 6.0, target: self, selector: "reloadChatTable", userInfo: nil, repeats: true)
-        NSRunLoop.currentRunLoop().addTimer(myTimer, forMode: NSRunLoopCommonModes)
+        chatLoadTimer = NSTimer(timeInterval: 6.0, target: self, selector: "reloadChatTable", userInfo: nil, repeats: true)
+        NSRunLoop.currentRunLoop().addTimer(chatLoadTimer, forMode: NSRunLoopCommonModes)
     }
     /*
     func avatarLetters(username: String) -> String! {
@@ -310,6 +322,11 @@ class ChatViewControllerTest: JSQMessagesViewController, UIAlertViewDelegate {
         return kJSQMessagesCollectionViewCellLabelHeightDefault;
     }
     
+    override func viewDidDisappear(animated: Bool) {
+        chatLoadTimer.invalidate()
+    }
+    
+
     func getFriendUserId()
     {
         let query = PFQuery(className: "Matches")

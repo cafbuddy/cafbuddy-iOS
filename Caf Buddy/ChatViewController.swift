@@ -12,7 +12,7 @@ let messageFontSize: CGFloat = 17
 let toolBarMinHeight: CGFloat = 44
 let textViewMaxHeight: (portrait: CGFloat, landscape: CGFloat) = (portrait: 272, landscape: 90)
 
-class ChatViewController: UIViewController,UITextViewDelegate,UITableViewDataSource,UITableViewDelegate {
+class ChatViewController: UIViewController,UITextViewDelegate,UITableViewDataSource,UITableViewDelegate, UINavigationBarDelegate {
     let screenSize: CGRect = UIScreen.mainScreen().bounds
     let sendButton = UIButton()
     let messageTableView:UITableView!
@@ -74,6 +74,7 @@ class ChatViewController: UIViewController,UITextViewDelegate,UITableViewDataSou
         println("My match ID is \(matchId)")
         super.init(nibName: nil, bundle: nil)
         messageTableView = UITableView(frame: screenSize, style: .Plain)
+        self.navigationController?.navigationBar.delegate = self;
     }
     
     func getFriendUserId()
@@ -122,6 +123,19 @@ class ChatViewController: UIViewController,UITextViewDelegate,UITableViewDataSou
     func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
         return true
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        var backButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Done, target: self, action: "backButton") //Use a selector
+        navigationItem.leftBarButtonItem = backButton
+    }
+    
+    func backButton()
+    {
+        chatLoadTimer.invalidate()
+        navigationController?.popToRootViewControllerAnimated(true)
+    }
+    
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         textView.becomeFirstResponder()
@@ -154,8 +168,19 @@ class ChatViewController: UIViewController,UITextViewDelegate,UITableViewDataSou
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
         chatLoadTimer.invalidate()
+        println("View Did Dissappear")
     }
     
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        chatLoadTimer.invalidate()
+         println("View Will Dissappear")
+    }
+    
+    func navigationBar(navigationBar: UINavigationBar, didPopItem item: UINavigationItem) {
+        chatLoadTimer.invalidate()
+        println("Popped Item")
+    }
     /*func reloadChatTable()
     {
         

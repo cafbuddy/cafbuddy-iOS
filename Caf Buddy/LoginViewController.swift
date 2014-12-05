@@ -547,7 +547,9 @@ class LogInViewController: UIViewController,PFLogInViewControllerDelegate,PFSign
         
         
         var mealsArray:NSMutableArray!
-        if (indexPath.section == 0) {mealsArray = mealsArrayU
+        if (indexPath.section == 0) {
+            customcell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
+            mealsArray = mealsArrayU
             if mealsArrayU.count == 0
             {
                 customcell.loadItem("You have",rangeOfTime: "",timeOfMeal: "NO",matching: "Upcoming Meals!!")
@@ -573,6 +575,7 @@ class LogInViewController: UIViewController,PFLogInViewControllerDelegate,PFSign
         } else {
             customcell.loadItem("\(tempMealType)",rangeOfTime: "\(tempMealRange)",timeOfMeal: "",matching: "\(tempMatchingString)")
         }
+        
         return customcell
     }
 
