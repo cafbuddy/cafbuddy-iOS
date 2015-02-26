@@ -98,6 +98,7 @@
 		E0E15E661A212AFF0004863D /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0E15E631A212AFF0004863D /* Bolts.framework */; };
 		E0E15E671A212AFF0004863D /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0E15E641A212AFF0004863D /* Parse.framework */; };
 		E0E15E681A212AFF0004863D /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0E15E651A212AFF0004863D /* ParseUI.framework */; };
+		FFA0C9A21A9DB64A009278E6 /* silhouette.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = FFA0C9A11A9DB64A009278E6 /* silhouette.jpeg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -225,6 +226,7 @@
 		E0E15E631A212AFF0004863D /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = Frameworks/Bolts.framework; sourceTree = "<group>"; };
 		E0E15E641A212AFF0004863D /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Parse.framework; path = Frameworks/Parse.framework; sourceTree = "<group>"; };
 		E0E15E651A212AFF0004863D /* ParseUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ParseUI.framework; path = Frameworks/ParseUI.framework; sourceTree = "<group>"; };
+		FFA0C9A11A9DB64A009278E6 /* silhouette.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = silhouette.jpeg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -293,6 +295,7 @@
 				E0D7D8961A17CBE900C35136 /* SecondViewController.swift */,
 				E0D7D8A31A181EBB00C35136 /* SpecialTextField.swift */,
 				E01C60D01A102FC400528411 /* Main.storyboard */,
+				FFA0C9A11A9DB64A009278E6 /* silhouette.jpeg */,
 				E0BFC1F81A27CB18001E0361 /* SettingsViewController.swift */,
 				E01C60D31A102FC400528411 /* Images.xcassets */,
 				E01C60D51A102FC400528411 /* LaunchScreen.xib */,
@@ -612,6 +615,7 @@
 				E0D7D89F1A17EB0700C35136 /* cafbuddylogo.png in Resources */,
 				E0341BAC1A279D1A0047F80B /* MealMatch.wav in Resources */,
 				E07991521A2B95CE007557DF /* SHIP.png in Resources */,
+				FFA0C9A21A9DB64A009278E6 /* silhouette.jpeg in Resources */,
 				E0D7D8A01A17EB0700C35136 /* cafbuddylogo@2x.png in Resources */,
 				E01C60D21A102FC400528411 /* Main.storyboard in Resources */,
 				E07991431A2B93B6007557DF /* JSQMessagesCollectionViewCellOutgoing.xib in Resources */,

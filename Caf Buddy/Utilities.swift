@@ -9,8 +9,9 @@
 import Foundation
 import UIKit
 
-let COLOR_MAIN_BACKGROUND_OFFWHITE = "#eaeaea"
-let COLOR_ACCENT_BLUE = "#0EDBEC"
+let COLOR_MAIN_BACKGROUND_OFFWHITE = "#eaeaea" //"#0dc5d4" "#eaeaea"   #468499
+let COLOR_ACCENT_BLUE = "#0EDBEC"//"#1FB1C3"//
+let COLOR_ACCENT_GREEN = "#0eec8e"
 
 let NAV_BAR_HEIGHT = 44
 let STATUS_BAR_HEIGHT = 20
