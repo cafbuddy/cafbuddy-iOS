@@ -13,7 +13,8 @@ let COLOR_MAIN_BACKGROUND_OFFWHITE = "#eaeaea" //"#0dc5d4" "#eaeaea"   #468499
 let COLOR_ACCENT_BLUE = "#0EDBEC"//"#1FB1C3"//
 let COLOR_DARKER_BLUE = "#1FB1C3"
 let COLOR_ACCENT_GREEN = "#0eec8e"
-let COLOR_GRAY = "#f4f4f4"
+let COLOR_BUTTON_UNPRESSED_GRAY = "#f4f4f4"
+let COLOR_BUTTON_PRESSED_GRAY = "#f0f0f0"
 
 let NAV_BAR_HEIGHT = 44
 let STATUS_BAR_HEIGHT = 20
@@ -92,6 +93,17 @@ func filledImageFrom(source : UIImage, color : UIColor) -> UIImage {
     
     //return the color-burned image
     return coloredImg;
+}
+
+
+func getImageWithColor(color: UIColor, size: CGSize) -> UIImage {
+    var rect = CGRectMake(0, 0, size.width, size.height)
+    UIGraphicsBeginImageContextWithOptions(size, false, 0)
+    color.setFill()
+    UIRectFill(rect)
+    var image: UIImage = UIGraphicsGetImageFromCurrentImageContext()
+    UIGraphicsEndImageContext()
+    return image
 }
 
 func showAlert(title:String,message:String)

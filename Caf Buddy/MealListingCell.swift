@@ -26,6 +26,8 @@ class MealListingCell : UICollectionViewCell {
     var labelMealType = UILabel()
     var imageMealType = UIImageView()
     var buttonChatAndStatus = UIButton()
+    var buttonAddCalendar = UIButton()
+    var labelMealDate = UILabel()
     var labelMealTime = UILabel()
     
     //initializes everything in the cell
@@ -64,17 +66,54 @@ class MealListingCell : UICollectionViewCell {
         //labelMealType.textColor = colorWithHexString()
         labelMealType.frame = CGRectMake(0, 17.5, contentView.frame.size.width, 20)
         
+        
         var buttonHeight : CGFloat = 40
-        buttonChatAndStatus.frame = CGRectMake(0, self.contentView.frame.height - buttonHeight, self.contentView.frame.width, buttonHeight)
+        buttonChatAndStatus.frame = CGRectMake(self.contentView.frame.width/2, self.contentView.frame.height - buttonHeight, self.contentView.frame.width/2, buttonHeight)
         buttonChatAndStatus.layer.cornerRadius = 3.0
-        buttonChatAndStatus.backgroundColor = colorWithHexString(COLOR_GRAY)
-        buttonChatAndStatus.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 25)
+        buttonChatAndStatus.setBackgroundImage(getImageWithColor(colorWithHexString(COLOR_BUTTON_UNPRESSED_GRAY), CGSizeMake(self.contentView.frame.width, buttonHeight)), forState: UIControlState.Normal)
+        buttonChatAndStatus.setBackgroundImage(getImageWithColor(colorWithHexString(COLOR_BUTTON_PRESSED_GRAY), CGSizeMake(self.contentView.frame.width, buttonHeight)), forState: UIControlState.Highlighted)
+        buttonChatAndStatus.setBackgroundImage(getImageWithColor(colorWithHexString(COLOR_BUTTON_PRESSED_GRAY), CGSizeMake(self.contentView.frame.width, buttonHeight)), forState: UIControlState.Selected)
+        buttonChatAndStatus.imageEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 25)
         buttonChatAndStatus.setTitleColor(colorWithHexString(COLOR_ACCENT_GREEN), forState: UIControlState.Normal)
+        buttonChatAndStatus.titleLabel?.font = UIFont.systemFontOfSize(13)
+        //CGRectMake(<#x: CGFloat#>, <#y: CGFloat#>, <#width: CGFloat#>, <#height: CGFloat#>)
+        var leftBorder : UIView = UIView(frame: CGRectMake(1, 0, 1, buttonChatAndStatus.frame.size.height))
+        leftBorder.backgroundColor = colorWithHexString(COLOR_BUTTON_PRESSED_GRAY)
+        buttonChatAndStatus.addSubview(leftBorder)
+        
+        
+        buttonAddCalendar.frame = CGRectMake(0, self.contentView.frame.height - buttonHeight, self.contentView.frame.width/2, buttonHeight)
+        buttonAddCalendar.layer.cornerRadius = 3.0
+        //buttonChatAndStatus.backgroundColor = colorWithHexString(COLOR_BUTTON_UNPRESSED_GRAY)
+        buttonAddCalendar.setBackgroundImage(getImageWithColor(colorWithHexString(COLOR_BUTTON_UNPRESSED_GRAY), CGSizeMake(self.contentView.frame.width, buttonHeight)), forState: UIControlState.Normal)
+        buttonAddCalendar.setBackgroundImage(getImageWithColor(colorWithHexString(COLOR_BUTTON_PRESSED_GRAY), CGSizeMake(self.contentView.frame.width, buttonHeight)), forState: UIControlState.Highlighted)
+        buttonAddCalendar.setBackgroundImage(getImageWithColor(colorWithHexString(COLOR_BUTTON_PRESSED_GRAY), CGSizeMake(self.contentView.frame.width, buttonHeight)), forState: UIControlState.Selected)
+        buttonAddCalendar.imageEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 25)
+        buttonAddCalendar.setTitleColor(colorWithHexString(COLOR_ACCENT_GREEN), forState: UIControlState.Normal)
+        buttonAddCalendar.titleLabel?.font = UIFont.systemFontOfSize(13)
+        
+        var rightBorder : UIView = UIView(frame: CGRectMake(buttonAddCalendar.frame.size.width, 0, 1, buttonAddCalendar.frame.size.height))
+        rightBorder.backgroundColor = colorWithHexString(COLOR_BUTTON_PRESSED_GRAY)
+        buttonAddCalendar.addSubview(rightBorder)
+        
+        
+        labelMealDate.font = UIFont.systemFontOfSize(15)
+        labelMealDate.textAlignment = NSTextAlignment.Center
+        //labelMealType.textColor = colorWithHexString()
+        labelMealDate.frame = CGRectMake(0, labelMealType.frame.origin.y + labelMealType.frame.height + 10, contentView.frame.size.width, 20)
+        
+        labelMealTime.font = UIFont.systemFontOfSize(15)
+        labelMealTime.textAlignment = NSTextAlignment.Center
+        //labelMealType.textColor = colorWithHexString()
+        labelMealTime.frame = CGRectMake(0, labelMealDate.frame.origin.y + labelMealDate.frame.height + 5, contentView.frame.size.width, 20)
         
         
         self.contentView.addSubview(labelMealType)
         self.contentView.addSubview(imageMealType)
         self.contentView.addSubview(buttonChatAndStatus)
+        self.contentView.addSubview(buttonAddCalendar)
+        self.contentView.addSubview(labelMealDate)
+        self.contentView.addSubview(labelMealTime)
         
     }
     
@@ -84,6 +123,8 @@ class MealListingCell : UICollectionViewCell {
         //for the times can do something like.. just words below - but in smaller font...
         //Wednesday at 3:00 PM
         //Thursday, March 30th Between 3:00 PM and 4:15 PM
+        
+        //we need to add an add to calendar button next to the chat with buddy button!!!!!! Perfect!!!!
         
         if (theMealType == MealType.Dinner) {
             labelMealType.text = "Dinner";
@@ -99,15 +140,22 @@ class MealListingCell : UICollectionViewCell {
         }
         
         if (theMealStatus == MealStatus.Confirmed) {
-            buttonChatAndStatus.setTitle("Chat With Buddy", forState: UIControlState.Normal)
-            buttonChatAndStatus.setImage(filledImageFrom(UIImage(named: "chat")!, colorWithHexString(COLOR_ACCENT_GREEN)), forState: UIControlState.Normal)
+            buttonChatAndStatus.setTitle("Chat W/ Buddy", forState: UIControlState.Normal)
+            buttonChatAndStatus.setImage(filledImageFrom(UIImage(named: "chat2")!, colorWithHexString(COLOR_ACCENT_GREEN)), forState: UIControlState.Normal)
             buttonChatAndStatus.enabled = true
+            
+            buttonAddCalendar.setTitle("Add To Calendar", forState: UIControlState.Normal)
+            buttonAddCalendar.setImage(filledImageFrom(UIImage(named: "addCal")!, colorWithHexString(COLOR_ACCENT_GREEN)), forState: UIControlState.Normal)
+            buttonAddCalendar.enabled = true
         }
         else {
             buttonChatAndStatus.setTitle("Searching For A Buddy...", forState: UIControlState.Normal)
             buttonChatAndStatus.setImage(filledImageFrom(UIImage(named: "buddy")!, colorWithHexString(COLOR_ACCENT_GREEN)), forState: UIControlState.Normal)
             buttonChatAndStatus.enabled = false
         }
+        
+        labelMealDate.text = "Wednesday, September 2nd"
+        labelMealTime.text = "At 3:30 PM"
     }
     
     

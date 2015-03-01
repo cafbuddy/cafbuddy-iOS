@@ -98,6 +98,8 @@
 		E0E15E661A212AFF0004863D /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0E15E631A212AFF0004863D /* Bolts.framework */; };
 		E0E15E671A212AFF0004863D /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0E15E641A212AFF0004863D /* Parse.framework */; };
 		E0E15E681A212AFF0004863D /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0E15E651A212AFF0004863D /* ParseUI.framework */; };
+		FF622FE21AA3C7A400801E04 /* addCal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FF622FE11AA3C7A400801E04 /* addCal@2x.png */; };
+		FF622FE41AA3C9D300801E04 /* chat2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FF622FE31AA3C9D300801E04 /* chat2@2x.png */; };
 		FF89E6EE1A9FF68A00DC3E39 /* MealListingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF89E6ED1A9FF68A00DC3E39 /* MealListingCell.swift */; };
 		FF94E6C71AA37C140043BF41 /* hot51@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FF94E6C61AA37C140043BF41 /* hot51@2x.png */; };
 		FF94E6C91AA37F410043BF41 /* steak@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FF94E6C81AA37F410043BF41 /* steak@2x.png */; };
@@ -233,6 +235,8 @@
 		E0E15E631A212AFF0004863D /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = Frameworks/Bolts.framework; sourceTree = "<group>"; };
 		E0E15E641A212AFF0004863D /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Parse.framework; path = Frameworks/Parse.framework; sourceTree = "<group>"; };
 		E0E15E651A212AFF0004863D /* ParseUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ParseUI.framework; path = Frameworks/ParseUI.framework; sourceTree = "<group>"; };
+		FF622FE11AA3C7A400801E04 /* addCal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "addCal@2x.png"; sourceTree = "<group>"; };
+		FF622FE31AA3C9D300801E04 /* chat2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chat2@2x.png"; sourceTree = "<group>"; };
 		FF89E6ED1A9FF68A00DC3E39 /* MealListingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MealListingCell.swift; sourceTree = "<group>"; };
 		FF94E6C61AA37C140043BF41 /* hot51@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hot51@2x.png"; sourceTree = "<group>"; };
 		FF94E6C81AA37F410043BF41 /* steak@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "steak@2x.png"; sourceTree = "<group>"; };
@@ -299,6 +303,8 @@
 				FFB27FB71AA3A0B00021C271 /* apple@2x.png */,
 				FFB27FB91AA3A5840021C271 /* chat@2x.png */,
 				FFB27FBB1AA3A8530021C271 /* buddy@2x.png */,
+				FF622FE11AA3C7A400801E04 /* addCal@2x.png */,
+				FF622FE31AA3C9D300801E04 /* chat2@2x.png */,
 				E0D7D8881A17BBB700C35136 /* LoginViewController.swift */,
 				E00E4E221A23FCAC0053C40E /* DataModel.swift */,
 				E0D7D8921A17C99400C35136 /* SwiftyJSON.swift */,
@@ -656,6 +662,7 @@
 				E07991201A2B93B6007557DF /* bubble_min_tailless.png in Resources */,
 				E07991211A2B93B6007557DF /* bubble_min_tailless@2x.png in Resources */,
 				E079911F1A2B93B6007557DF /* bubble_min@2x.png in Resources */,
+				FF622FE41AA3C9D300801E04 /* chat2@2x.png in Resources */,
 				FFB27FBC1AA3A8530021C271 /* buddy@2x.png in Resources */,
 				E07991221A2B93B6007557DF /* bubble_stroked.png in Resources */,
 				E01C60D41A102FC400528411 /* Images.xcassets in Resources */,
@@ -665,6 +672,7 @@
 				E07991251A2B93B6007557DF /* bubble_stroked_tailless@2x.png in Resources */,
 				E079912B1A2B93B6007557DF /* typing@2x.png in Resources */,
 				E07991351A2B93B6007557DF /* JSQMessagesViewController.xib in Resources */,
+				FF622FE21AA3C7A400801E04 /* addCal@2x.png in Resources */,
 				FFB27FB81AA3A0B00021C271 /* apple@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

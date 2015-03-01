@@ -269,7 +269,7 @@ class LogInViewController: UIViewController,PFLogInViewControllerDelegate,PFSign
         let collectionViewLayout : UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         collectionViewLayout.minimumLineSpacing = 15
         collectionViewLayout.sectionInset = UIEdgeInsetsMake(15, 15, 15, 15)
-        collectionViewLayout.itemSize = CGSizeMake(screenSize.width - 30, 125)
+        collectionViewLayout.itemSize = CGSizeMake(screenSize.width - 30, 150)
         collectionViewLayout.headerReferenceSize = CGSizeMake(screenSize.width, 40)
         
         collectionViewMain = UICollectionView(frame: CGRectMake(0, CGFloat(NAV_BAR_HEIGHT) + CGFloat(STATUS_BAR_HEIGHT), screenSize.width, screenSize.height - (CGFloat(NAV_BAR_HEIGHT) + CGFloat(STATUS_BAR_HEIGHT) + CGFloat(TAB_BAR_HEIGHT))), collectionViewLayout: collectionViewLayout)
