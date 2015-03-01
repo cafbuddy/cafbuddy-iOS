@@ -81,6 +81,10 @@ class MealListingCell : UICollectionViewCell {
     func setMealDetails(theMealType : MealType, theMealStatus : MealStatus) {
         
         
+        //for the times can do something like.. just words below - but in smaller font...
+        //Wednesday at 3:00 PM
+        //Thursday, March 30th Between 3:00 PM and 4:15 PM
+        
         if (theMealType == MealType.Dinner) {
             labelMealType.text = "Dinner";
             imageMealType.image = filledImageFrom(UIImage(named: "steak")!, colorWithHexString(COLOR_DARKER_BLUE))
