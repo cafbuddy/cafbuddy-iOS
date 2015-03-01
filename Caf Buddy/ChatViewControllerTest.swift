@@ -83,7 +83,7 @@ class ChatViewControllerTest: JSQMessagesViewController, UIAlertViewDelegate {
     }
     
     func options() {
-        UIAlertView(title: "Log out", message: "Are you sure you want to log out?", delegate: self, cancelButtonTitle: "No", otherButtonTitles: "Yes").show()
+        //UIAlertView(title: "Log out", message: "Are you sure you want to log out?", delegate: self, cancelButtonTitle: "No", otherButtonTitles: "Yes").show()
     }
     
     

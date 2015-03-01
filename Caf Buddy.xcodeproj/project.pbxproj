@@ -98,7 +98,14 @@
 		E0E15E661A212AFF0004863D /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0E15E631A212AFF0004863D /* Bolts.framework */; };
 		E0E15E671A212AFF0004863D /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0E15E641A212AFF0004863D /* Parse.framework */; };
 		E0E15E681A212AFF0004863D /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0E15E651A212AFF0004863D /* ParseUI.framework */; };
+		FF89E6EE1A9FF68A00DC3E39 /* MealListingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF89E6ED1A9FF68A00DC3E39 /* MealListingCell.swift */; };
+		FF94E6C71AA37C140043BF41 /* hot51@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FF94E6C61AA37C140043BF41 /* hot51@2x.png */; };
+		FF94E6C91AA37F410043BF41 /* steak@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FF94E6C81AA37F410043BF41 /* steak@2x.png */; };
 		FFA0C9A21A9DB64A009278E6 /* silhouette.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = FFA0C9A11A9DB64A009278E6 /* silhouette.jpeg */; };
+		FFB27FB81AA3A0B00021C271 /* apple@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FFB27FB71AA3A0B00021C271 /* apple@2x.png */; };
+		FFB27FBA1AA3A5840021C271 /* chat@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FFB27FB91AA3A5840021C271 /* chat@2x.png */; };
+		FFB27FBC1AA3A8530021C271 /* buddy@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FFB27FBB1AA3A8530021C271 /* buddy@2x.png */; };
+		FFC56A291AA2E347003901A3 /* MealListingHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC56A281AA2E347003901A3 /* MealListingHeader.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -226,7 +233,14 @@
 		E0E15E631A212AFF0004863D /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = Frameworks/Bolts.framework; sourceTree = "<group>"; };
 		E0E15E641A212AFF0004863D /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Parse.framework; path = Frameworks/Parse.framework; sourceTree = "<group>"; };
 		E0E15E651A212AFF0004863D /* ParseUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ParseUI.framework; path = Frameworks/ParseUI.framework; sourceTree = "<group>"; };
+		FF89E6ED1A9FF68A00DC3E39 /* MealListingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MealListingCell.swift; sourceTree = "<group>"; };
+		FF94E6C61AA37C140043BF41 /* hot51@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hot51@2x.png"; sourceTree = "<group>"; };
+		FF94E6C81AA37F410043BF41 /* steak@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "steak@2x.png"; sourceTree = "<group>"; };
 		FFA0C9A11A9DB64A009278E6 /* silhouette.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = silhouette.jpeg; sourceTree = "<group>"; };
+		FFB27FB71AA3A0B00021C271 /* apple@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "apple@2x.png"; sourceTree = "<group>"; };
+		FFB27FB91AA3A5840021C271 /* chat@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chat@2x.png"; sourceTree = "<group>"; };
+		FFB27FBB1AA3A8530021C271 /* buddy@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buddy@2x.png"; sourceTree = "<group>"; };
+		FFC56A281AA2E347003901A3 /* MealListingHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MealListingHeader.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -278,6 +292,14 @@
 				E0341BA81A279CFF0047F80B /* Audio */,
 				E0D7D8A21A17EB0E00C35136 /* cafBuddylogo */,
 				E0A9AE971A2133A8006F4504 /* CustomTableViewCell.swift */,
+				FFC56A281AA2E347003901A3 /* MealListingHeader.swift */,
+				FF89E6ED1A9FF68A00DC3E39 /* MealListingCell.swift */,
+				FF94E6C61AA37C140043BF41 /* hot51@2x.png */,
+				FF94E6C81AA37F410043BF41 /* steak@2x.png */,
+				FFB27FB71AA3A0B00021C271 /* apple@2x.png */,
+				FFB27FB91AA3A5840021C271 /* chat@2x.png */,
+				FFB27FBB1AA3A8530021C271 /* buddy@2x.png */,
+				E0D7D8881A17BBB700C35136 /* LoginViewController.swift */,
 				E00E4E221A23FCAC0053C40E /* DataModel.swift */,
 				E0D7D8921A17C99400C35136 /* SwiftyJSON.swift */,
 				E0D7D8901A17C19B00C35136 /* Utilities.swift */,
@@ -289,7 +311,6 @@
 				E07991511A2B95CE007557DF /* SHIP.png */,
 				E079914F1A2B9546007557DF /* User.swift */,
 				E079914D1A2B94F2007557DF /* Message.swift */,
-				E0D7D8881A17BBB700C35136 /* LoginViewController.swift */,
 				E0341BA61A26C8350047F80B /* CustomChatCell.swift */,
 				E0E15E611A2128D30004863D /* APIKey.plist */,
 				E0D7D8961A17CBE900C35136 /* SecondViewController.swift */,
@@ -606,6 +627,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E079912A1A2B93B6007557DF /* typing.png in Resources */,
+				FF94E6C71AA37C140043BF41 /* hot51@2x.png in Resources */,
 				E07991281A2B93B6007557DF /* camera.png in Resources */,
 				E079912D1A2B93B6007557DF /* message_sent.aiff in Resources */,
 				E079914A1A2B93B6007557DF /* JSQMessagesToolbarContentView.xib in Resources */,
@@ -613,6 +635,7 @@
 				E079912C1A2B93B6007557DF /* message_received.aiff in Resources */,
 				E079914C1A2B93B6007557DF /* JSQMessagesTypingIndicatorFooterView.xib in Resources */,
 				E0D7D89F1A17EB0700C35136 /* cafbuddylogo.png in Resources */,
+				FFB27FBA1AA3A5840021C271 /* chat@2x.png in Resources */,
 				E0341BAC1A279D1A0047F80B /* MealMatch.wav in Resources */,
 				E07991521A2B95CE007557DF /* SHIP.png in Resources */,
 				FFA0C9A21A9DB64A009278E6 /* silhouette.jpeg in Resources */,
@@ -625,6 +648,7 @@
 				E07991271A2B93B6007557DF /* bubble_tailless@2x.png in Resources */,
 				E07991481A2B93B6007557DF /* JSQMessagesLoadEarlierHeaderView.xib in Resources */,
 				E01C60D71A102FC400528411 /* LaunchScreen.xib in Resources */,
+				FF94E6C91AA37F410043BF41 /* steak@2x.png in Resources */,
 				E0E15E621A2128D30004863D /* APIKey.plist in Resources */,
 				E07991291A2B93B6007557DF /* camera@2x.png in Resources */,
 				E079911C1A2B93B6007557DF /* bubble.png in Resources */,
@@ -632,6 +656,7 @@
 				E07991201A2B93B6007557DF /* bubble_min_tailless.png in Resources */,
 				E07991211A2B93B6007557DF /* bubble_min_tailless@2x.png in Resources */,
 				E079911F1A2B93B6007557DF /* bubble_min@2x.png in Resources */,
+				FFB27FBC1AA3A8530021C271 /* buddy@2x.png in Resources */,
 				E07991221A2B93B6007557DF /* bubble_stroked.png in Resources */,
 				E01C60D41A102FC400528411 /* Images.xcassets in Resources */,
 				E079911D1A2B93B6007557DF /* bubble@2x.png in Resources */,
@@ -640,6 +665,7 @@
 				E07991251A2B93B6007557DF /* bubble_stroked_tailless@2x.png in Resources */,
 				E079912B1A2B93B6007557DF /* typing@2x.png in Resources */,
 				E07991351A2B93B6007557DF /* JSQMessagesViewController.xib in Resources */,
+				FFB27FB81AA3A0B00021C271 /* apple@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -671,6 +697,7 @@
 				E079913D1A2B93B6007557DF /* JSQMessage.m in Sources */,
 				E079914E1A2B94F2007557DF /* Message.swift in Sources */,
 				E07991501A2B9546007557DF /* User.swift in Sources */,
+				FFC56A291AA2E347003901A3 /* MealListingHeader.swift in Sources */,
 				E0D7D8911A17C19B00C35136 /* Utilities.swift in Sources */,
 				E07991311A2B93B6007557DF /* UIImage+JSQMessages.m in Sources */,
 				E09A620A1A2B919700835611 /* ChatViewControllerTest.swift in Sources */,
@@ -690,6 +717,7 @@
 				E01C60CB1A102FC400528411 /* AppDelegate.swift in Sources */,
 				E0BFC1F91A27CB18001E0361 /* SettingsViewController.swift in Sources */,
 				E0341BA51A2619370047F80B /* ChatViewController.swift in Sources */,
+				FF89E6EE1A9FF68A00DC3E39 /* MealListingCell.swift in Sources */,
 				E07991361A2B93B6007557DF /* JSQMessagesAvatarFactory.m in Sources */,
 				E0D7D88E1A17BFC100C35136 /* MyLoginViewController.swift in Sources */,
 			);

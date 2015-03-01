@@ -91,11 +91,11 @@
             </objects>
             <point key="canvasLocation" x="750" y="-320"/>
         </scene>
-        <!--Create New-->
+        <!--New-->
         <scene sceneID="Hwy-NC-r5P">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="R1M-PV-eG9" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Create New" image="createNewIcon" id="cPa-gy-q4n"/>
+                    <tabBarItem key="tabBarItem" title="New" image="createNewIcon" selectedImage="createNewIcon" id="cPa-gy-q4n"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="aJ8-25-aah">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>

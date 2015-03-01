@@ -2,12 +2,13 @@
 //  LoginViewController.swift
 //  Caf Buddy
 //
-//  Created by Armaan Bindra on 11/15/14.
-//  Copyright (c) 2014 St. Olaf Acm. All rights reserved.
+//  Created by Armaan Bindra on 11/15/14 and Jacob Forster on 2/28/15.
+//  Copyright (c) 2015 St. Olaf Acm. All rights reserved.
 //
 
 import Foundation
 import UIKit
+
 extension String {
     subscript (r: Range<Int>) -> String {
         get {
@@ -23,15 +24,17 @@ let BREAKFAST = "Breakfast"
 let LUNCH = "Lunch"
 let DINNER = "Dinner"
 
-class LogInViewController: UIViewController,PFLogInViewControllerDelegate,PFSignUpViewControllerDelegate,UITableViewDelegate,UITableViewDataSource {
+class LogInViewController: UIViewController,PFLogInViewControllerDelegate,PFSignUpViewControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
-    //@IBOutlet weak var mainTableView: UITableView!
-    var mainTableView = UITableView()
-    var mealsArrayU = NSMutableArray()
-    var mealsArrayP = NSMutableArray()
+    let screenSize: CGRect = UIScreen.mainScreen().bounds
+    
+    var collectionViewMain : UICollectionView?
+    var mealsArrayUpcoming = NSMutableArray()
+    var mealsArrayPending = NSMutableArray()
     var numMeals = 0
     var showChatScreen = false
     var chatScreenMatchId = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         println("View Did Load")
@@ -48,32 +51,32 @@ class LogInViewController: UIViewController,PFLogInViewControllerDelegate,PFSign
         alert.show()
         showChatScreen = chatScreen
         chatScreenMatchId = matchId
-       super.init(nibName: nil, bundle: nil)
+        super.init(nibName: nil, bundle: nil)
         
     }
-
+    
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
-
+    
     func startMealScreen()
     {
         println("Start Meal Screen Called")
-        mainTableView.allowsSelection = true
+        //mainTableView.allowsSelection = true
         if var currentUser = PFUser.currentUser()
         {
-           
-           if var emailVerified = currentUser.objectForKey("emailVerified") as? Bool
-           {
+            
+            if var emailVerified = currentUser.objectForKey("emailVerified") as? Bool
+            {
                 println("Current User is \(currentUser.email)")
                 navigationController?.navigationBar.barTintColor = colorWithHexString(COLOR_ACCENT_BLUE)
                 navigationItem.title = "My Meals"
                 navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
                 
-                self.mainTableView.registerClass(CustomTableViewCell.self, forCellReuseIdentifier: "cell")
+                //self.mainTableView.registerClass(CustomTableViewCell.self, forCellReuseIdentifier: "cell")
                 
                 initInterface()
-           }
+            }
             else
             {
                 showLoginView()
@@ -124,7 +127,7 @@ class LogInViewController: UIViewController,PFLogInViewControllerDelegate,PFSign
         presentViewController(logInViewController, animated: true, completion: nil)
     }
     // MARK: Login View Controller Delegate Methods
-
+    
     func logInViewController(logInController: PFLogInViewController!, shouldBeginLogInWithUsername username: String!, password: String!) -> Bool {
         
         if ((username != nil) && (password != nil) && (countElements(username) != 0) && (countElements(password) != 0))
@@ -242,17 +245,6 @@ class LogInViewController: UIViewController,PFLogInViewControllerDelegate,PFSign
             alert.show()
         }
         
-        /*
-        else if (countElements(self.signUpView.usernameField.text!) < 2) {
-        NSLog("signup field text less than 2")
-        // display alert
-        informationComplete = false
-        } else if (self.signUpView.passwordField) {
-        NSLog("password error ")
-        // display alert
-        informationComplete = false
-        }
-        }*/
         return isValid
     }
     
@@ -274,309 +266,331 @@ class LogInViewController: UIViewController,PFLogInViewControllerDelegate,PFSign
         var screenWidth = Float(self.view.frame.size.width)
         var screenHeight = Float(self.view.frame.size.height)
         
-        mainTableView.delegate = self
-        mainTableView.dataSource = self
+        let collectionViewLayout : UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        collectionViewLayout.minimumLineSpacing = 15
+        collectionViewLayout.sectionInset = UIEdgeInsetsMake(15, 15, 15, 15)
+        collectionViewLayout.itemSize = CGSizeMake(screenSize.width - 30, 125)
+        collectionViewLayout.headerReferenceSize = CGSizeMake(screenSize.width, 40)
         
-        mainTableView.frame = CGRectMake(0,0, CGFloat(screenWidth),CGFloat(screenHeight))
+        collectionViewMain = UICollectionView(frame: CGRectMake(0, CGFloat(NAV_BAR_HEIGHT) + CGFloat(STATUS_BAR_HEIGHT), screenSize.width, screenSize.height - (CGFloat(NAV_BAR_HEIGHT) + CGFloat(STATUS_BAR_HEIGHT) + CGFloat(TAB_BAR_HEIGHT))), collectionViewLayout: collectionViewLayout)
         
-        self.view.addSubview(mainTableView)
+        collectionViewMain!.delegate = self;
+        collectionViewMain!.dataSource = self;
+        collectionViewMain!.alwaysBounceVertical = true
+        collectionViewMain!.registerClass(MealListingCell.self, forCellWithReuseIdentifier: "mealCell")
+        collectionViewMain!.registerClass(MealListingHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "header")
+        collectionViewMain!.backgroundColor = colorWithHexString(COLOR_MAIN_BACKGROUND_OFFWHITE)
         
-        var floatNumMeals = Float(self.numMeals)
-        //var cellHeight = self.view.frame.size.height
-        mainTableView.rowHeight = (mainTableView.frame.size.height - CGFloat(NAV_BAR_HEIGHT) - CGFloat(STATUS_BAR_HEIGHT) - CGFloat(49))/5
-        //mainTableView.rowHeight = CGFloat( cellheight - 69)/CGFloat(floatNumMeals)
-        
-        //updateInterface()
-        reloadTableFromServer()
+        self.view.addSubview(collectionViewMain!)
     }
     
-    func reloadTableFromServer() {
-        var userObjectID = PFUser.currentUser().objectId
-        //println(userObjectID)
-        //println("Something should print")
-        PFCloud.callFunctionInBackground("getMealsToday", withParameters:["objectID":userObjectID]) {
-            (result: AnyObject!, error: NSError!) -> Void in
-            if error == nil {
-                //println("Something should print")
-                //println(result)
-                //var test = "{\"firstName\":\"John\", \"lastName\":\"Doe\"}"
-                let testData = (result as NSString).dataUsingEncoding(NSUTF8StringEncoding)
-                let jsonObject = JSON(data: testData!, options: nil, error: nil)
-                //println(jsonObject[0]["createdAt"].stringValue)
-                
-                //Empty All Arrays
-                
-                self.mealsArrayU.removeAllObjects()
-                self.mealsArrayP.removeAllObjects()
-                //println("NumMeals is \(self.numMeals)")
-                for (var i=0;i<jsonObject.count;i++)
-                {
-                    self.numMeals = jsonObject.count
-                    var meal = jsonObject[i]["type"].stringValue
-                    
-                    
-                    var mealItem = Dictionary<String, String>()
-                    mealItem["matchId"] = jsonObject[i]["matchId"].stringValue//Adding Found matchIds to array
-                    if meal=="0" {
-                        mealItem["meals"] = BREAKFAST
-                    } else if meal=="1" {
-                        mealItem["meals"] = LUNCH
-                    } else if meal=="2" {
-                        mealItem["meals"] = DINNER
-                    }
-                    mealItem["mealId"] = jsonObject[i]["objectId"].stringValue
-                    if !(jsonObject[i]["matched"].stringValue=="true") {
-                        mealItem["ifMatched"] = "false"
-                        var sTime = jsonObject[i]["start"]["iso"].stringValue
-                        var formatterS = NSDateFormatter()
-                        formatterS.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
-                        formatterS.timeZone = NSTimeZone(forSecondsFromGMT: 0)
-                        var dateS = formatterS.dateFromString(sTime)
-                        formatterS.timeZone = NSTimeZone(forSecondsFromGMT: NSTimeZone.localTimeZone().secondsFromGMT)
-                        formatterS.dateFormat = "hh:mm a"
-                        var localSTime = formatterS.stringFromDate(dateS!)
-                        mealItem["startTime"] = localSTime
-                        var eTime = jsonObject[i]["end"]["iso"].stringValue
-                        var formatterE = NSDateFormatter()
-                        formatterE.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
-                        formatterE.timeZone = NSTimeZone(forSecondsFromGMT: 0)
-                        var dateE = formatterE.dateFromString(eTime)
-                         formatterE.timeZone = NSTimeZone(forSecondsFromGMT: NSTimeZone.localTimeZone().secondsFromGMT)
-                        formatterE.dateFormat = "hh:mm a"
-                        var localETime = formatterE.stringFromDate(dateE!)
-                        mealItem["endTime"] = localETime
-                        mealItem["matchString"] = "Finding Match"
-                        mealItem["mealTimeRange"] = "\(localSTime) - \(localETime)"
-                    }
-                    else {
-                        var sTime = jsonObject[i]["start"]["iso"].stringValue
-                        var formatterS = NSDateFormatter()
-                        formatterS.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
-                        formatterS.timeZone = NSTimeZone(forSecondsFromGMT: 0)
-                        var dateS = formatterS.dateFromString(sTime)
-                        formatterS.timeZone = NSTimeZone(forSecondsFromGMT: NSTimeZone.localTimeZone().secondsFromGMT)
-                        formatterS.dateFormat = "hh:mm a"
-                        var localSTime = formatterS.stringFromDate(dateS!)
-                        mealItem["startTime"] =  localSTime
-                        mealItem["endTime"] = ""
-                        mealItem["ifMatched"] = "true"
-                        mealItem["matchString"] = "Match Found"
-                        mealItem["mealTimeRange"] = ""
-                    }
-                    
-                    if (jsonObject[i]["matched"].stringValue=="true")
-                    {
-                        self.mealsArrayU.addObject(mealItem)
-                    }
-                    else if(jsonObject[i]["matched"].stringValue=="false")
-                    {
-                        self.mealsArrayP.addObject(mealItem)
-                    }
-                }
-                //println(self.mealsArrayU)
-                //println("Pause")
-                //println(self.mealsArrayP)
-                self.mainTableView.reloadData()
-                //self.updateInterface()
-                /*dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    self.mainTableView.reloadData()
-                })*/
-                
-            }
-            else{
-                println("error")
-            }
-        }
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 4
     }
     
-    func updateInterface() {
-        ///ADD UPDATE INTERFACE CODE HERE
-        var currentUser = PFUser.currentUser()
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
+        let mealCell = collectionViewMain!.dequeueReusableCellWithReuseIdentifier("mealCell", forIndexPath: indexPath) as MealListingCell
+        mealCell.backgroundColor = UIColor.whiteColor()
         
-        if(currentUser == nil ){
-            
+        var theMealStatus = MealStatus.Confirmed
+        if (indexPath.section == 1) {
+            theMealStatus = MealStatus.Pending
         }
-        else{
-            var emailVerified = currentUser.objectForKey("emailVerified") as Bool
-            if(emailVerified){
-                navigationController?.navigationBar.barTintColor = colorWithHexString(COLOR_ACCENT_BLUE)
-                navigationItem.title = "My Meals"
-                navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
-                
-                self.mainTableView.registerClass(CustomTableViewCell.self, forCellReuseIdentifier: "cell")
-                initInterface()
-            }
+        if (indexPath.item%3 == 0) {
+            mealCell.setMealDetails(MealType.Breakfast, theMealStatus : theMealStatus)
         }
-
+        else if (indexPath.item%3 == 1) {
+            mealCell.setMealDetails(MealType.Lunch, theMealStatus : theMealStatus)
+        }
+        else {
+            mealCell.setMealDetails(MealType.Dinner, theMealStatus : theMealStatus)
+        }
+    
+        return mealCell
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return 2
     }
     
-
-    // MARK: Table Methods
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0
-        {
-        if mealsArrayU.count == 0 {
-            return 1}
-        return mealsArrayU.count
+    func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+        
+        var headerView = collectionViewMain!.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "header", forIndexPath: indexPath) as MealListingHeader
+        
+        if (indexPath.section == 0) {
+            headerView.setTitle("Upcoming", sectionIndex : indexPath.section)
         }
-        if mealsArrayP.count == 0 { return 1}
-        return mealsArrayP.count
+        else {
+            headerView.setTitle("Pending", sectionIndex : indexPath.section)
+        }
+        
+        return headerView
+    }
+    
+    /*
+    func reloadTableFromServer() {
+    var userObjectID = PFUser.currentUser().objectId
+    //println(userObjectID)
+    //println("Something should print")
+    PFCloud.callFunctionInBackground("getMealsToday", withParameters:["objectID":userObjectID]) {
+    (result: AnyObject!, error: NSError!) -> Void in
+    if error == nil {
+    //println("Something should print")
+    //println(result)
+    //var test = "{\"firstName\":\"John\", \"lastName\":\"Doe\"}"
+    let testData = (result as NSString).dataUsingEncoding(NSUTF8StringEncoding)
+    let jsonObject = JSON(data: testData!, options: nil, error: nil)
+    //println(jsonObject[0]["createdAt"].stringValue)
+    
+    //Empty All Arrays
+    
+    self.mealsArrayU.removeAllObjects()
+    self.mealsArrayP.removeAllObjects()
+    //println("NumMeals is \(self.numMeals)")
+    for (var i=0;i<jsonObject.count;i++)
+    {
+    self.numMeals = jsonObject.count
+    var meal = jsonObject[i]["type"].stringValue
+    
+    
+    var mealItem = Dictionary<String, String>()
+    mealItem["matchId"] = jsonObject[i]["matchId"].stringValue//Adding Found matchIds to array
+    if meal=="0" {
+    mealItem["meals"] = BREAKFAST
+    } else if meal=="1" {
+    mealItem["meals"] = LUNCH
+    } else if meal=="2" {
+    mealItem["meals"] = DINNER
+    }
+    mealItem["mealId"] = jsonObject[i]["objectId"].stringValue
+    if !(jsonObject[i]["matched"].stringValue=="true") {
+    mealItem["ifMatched"] = "false"
+    var sTime = jsonObject[i]["start"]["iso"].stringValue
+    var formatterS = NSDateFormatter()
+    formatterS.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+    formatterS.timeZone = NSTimeZone(forSecondsFromGMT: 0)
+    var dateS = formatterS.dateFromString(sTime)
+    formatterS.timeZone = NSTimeZone(forSecondsFromGMT: NSTimeZone.localTimeZone().secondsFromGMT)
+    formatterS.dateFormat = "hh:mm a"
+    var localSTime = formatterS.stringFromDate(dateS!)
+    mealItem["startTime"] = localSTime
+    var eTime = jsonObject[i]["end"]["iso"].stringValue
+    var formatterE = NSDateFormatter()
+    formatterE.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+    formatterE.timeZone = NSTimeZone(forSecondsFromGMT: 0)
+    var dateE = formatterE.dateFromString(eTime)
+    formatterE.timeZone = NSTimeZone(forSecondsFromGMT: NSTimeZone.localTimeZone().secondsFromGMT)
+    formatterE.dateFormat = "hh:mm a"
+    var localETime = formatterE.stringFromDate(dateE!)
+    mealItem["endTime"] = localETime
+    mealItem["matchString"] = "Finding Match"
+    mealItem["mealTimeRange"] = "\(localSTime) - \(localETime)"
+    }
+    else {
+    var sTime = jsonObject[i]["start"]["iso"].stringValue
+    var formatterS = NSDateFormatter()
+    formatterS.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+    formatterS.timeZone = NSTimeZone(forSecondsFromGMT: 0)
+    var dateS = formatterS.dateFromString(sTime)
+    formatterS.timeZone = NSTimeZone(forSecondsFromGMT: NSTimeZone.localTimeZone().secondsFromGMT)
+    formatterS.dateFormat = "hh:mm a"
+    var localSTime = formatterS.stringFromDate(dateS!)
+    mealItem["startTime"] =  localSTime
+    mealItem["endTime"] = ""
+    mealItem["ifMatched"] = "true"
+    mealItem["matchString"] = "Match Found"
+    mealItem["mealTimeRange"] = ""
+    }
+    
+    if (jsonObject[i]["matched"].stringValue=="true")
+    {
+    self.mealsArrayU.addObject(mealItem)
+    }
+    else if(jsonObject[i]["matched"].stringValue=="false")
+    {
+    self.mealsArrayP.addObject(mealItem)
+    }
+    }
+    //println(self.mealsArrayU)
+    //println("Pause")
+    //println(self.mealsArrayP)
+    //self.mainTableView.reloadData()
+    //self.updateInterface()
+    /*dispatch_async(dispatch_get_main_queue(), { () -> Void in
+    self.mainTableView.reloadData()
+    })*/
+    
+    }
+    else{
+    println("error")
+    }
+    }
+    }
+    */
+    
+    
+    // MARK: Table Methods
+    /*func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    if section == 0
+    {
+    if mealsArrayU.count == 0 {
+    return 1}
+    return mealsArrayU.count
+    }
+    if mealsArrayP.count == 0 { return 1}
+    return mealsArrayP.count
     }
     
     func tableView(tableView: UITableView!, canEditRowAtIndexPath indexPath: NSIndexPath!) -> Bool {
-        if indexPath.section == 1
-        {
-            if mealsArrayP.count == 0 { return false}
-            return true
-        }
-        return false
+    if indexPath.section == 1
+    {
+    if mealsArrayP.count == 0 { return false}
+    return true
+    }
+    return false
     }
     
     func tableView(tableView: UITableView!, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath!) {
-        if (editingStyle == UITableViewCellEditingStyle.Delete) {
-            
-            var query = PFQuery(className:"Meals")
-            query.whereKey("objectId", equalTo: mealsArrayP[indexPath.row]["mealId"] as String)
-            mealsArrayP.removeObjectAtIndex(indexPath.row)
-            self.mainTableView.reloadData()
-            query.findObjectsInBackgroundWithBlock {
-                (objects: [AnyObject]!, error: NSError!) -> Void in
-                if error == nil {
-                    // The find succeeded.
-                    NSLog("Successfully retrieved \(objects.count) scores.")
-                    // Do something with the found objects
-                    for object in objects {
-                        NSLog("%@", object.objectId)
-                        object.deleteInBackgroundWithBlock({
-                            (succeeded: Bool, error: NSError!) in
-                            if succeeded
-                            {
-                                //self.reloadTableFromServer()
-                            }
-                        })
-                    }
-                } else {
-                    // Log details of the failure
-                    NSLog("Error: %@ %@", error, error.userInfo!)
-                }
-            }
-        }
+    if (editingStyle == UITableViewCellEditingStyle.Delete) {
+    
+    var query = PFQuery(className:"Meals")
+    query.whereKey("objectId", equalTo: mealsArrayP[indexPath.row]["mealId"] as String)
+    mealsArrayP.removeObjectAtIndex(indexPath.row)
+    self.mainTableView.reloadData()
+    query.findObjectsInBackgroundWithBlock {
+    (objects: [AnyObject]!, error: NSError!) -> Void in
+    if error == nil {
+    // The find succeeded.
+    NSLog("Successfully retrieved \(objects.count) scores.")
+    // Do something with the found objects
+    for object in objects {
+    NSLog("%@", object.objectId)
+    object.deleteInBackgroundWithBlock({
+    (succeeded: Bool, error: NSError!) in
+    if succeeded
+    {
+    //self.reloadTableFromServer()
     }
-
+    })
+    }
+    } else {
+    // Log details of the failure
+    NSLog("Error: %@ %@", error, error.userInfo!)
+    }
+    }
+    }
+    }
+    
     /*func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        //if first section
-        if (section == 0) {
-            return "Upcoming Meals"
-        }
-        
-        //if second section
-        return "Pending Matches"
+    //if first section
+    if (section == 0) {
+    return "Upcoming Meals"
+    }
+    
+    //if second section
+    return "Pending Matches"
     }*/
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        var view = UIView(frame: CGRectMake(0, 0, tableView.frame.size.width, 18))
-        /* Create custom view to display section header... */
-        var label = UILabel()
-        label.font = UIFont.boldSystemFontOfSize(16.0)
-        label.textAlignment = NSTextAlignment.Center
-        label.frame = CGRectMake(0, 0, tableView.frame.size.width, 50)
-        var string = "Test"
-        if (section == 0) {
-            string = "Upcoming Meals"
-        }
-        else{
-        //if second section
-        string = "Pending Matches"
-        }
-        /* Section header is in 0th index... */
-        label.text = string
-        view.addSubview(label)
-        view.backgroundColor = colorWithHexString(COLOR_MAIN_BACKGROUND_OFFWHITE)
-        return view;
+    var view = UIView(frame: CGRectMake(0, 0, tableView.frame.size.width, 18))
+    /* Create custom view to display section header... */
+    var label = UILabel()
+    label.font = UIFont.boldSystemFontOfSize(16.0)
+    label.textAlignment = NSTextAlignment.Center
+    label.frame = CGRectMake(0, 0, tableView.frame.size.width, 50)
+    var string = "Test"
+    if (section == 0) {
+    string = "Upcoming Meals"
+    }
+    else{
+    //if second section
+    string = "Pending Matches"
+    }
+    /* Section header is in 0th index... */
+    label.text = string
+    view.addSubview(label)
+    view.backgroundColor = colorWithHexString(COLOR_MAIN_BACKGROUND_OFFWHITE)
+    return view;
     }
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 50.0
+    return 50.0
     }
     
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
-
-        var mealsArray:NSMutableArray!
-        if (indexPath.section == 0) {mealsArray = mealsArrayU
-            if mealsArrayU.count == 0 {
-                return}
-        }
-        else {mealsArray = mealsArrayP
-            if mealsArrayP.count == 0 {
-                return}
-        }
-        
-        if( mealsArray[indexPath.row]["ifMatched"] as String == "true" )
-         {
-        //let chatVC = ChatViewController(myMatchId: mealsArray[indexPath.row]["matchId"] as String )
-        let chatVC = ChatViewControllerTest(myMatchId: mealsArray[indexPath.row]["matchId"] as String )
-        UIView.beginAnimations("ShowDetails", context: nil)
-        UIView.setAnimationCurve(UIViewAnimationCurve.EaseInOut)
-        UIView.setAnimationDuration(0.5)
-        navigationController?.pushViewController(chatVC, animated: false)
-        let theView = navigationController?.view
-        UIView.setAnimationTransition(UIViewAnimationTransition.FlipFromRight, forView: theView!, cache: false)
-        //UIView.setAnimationTransition(UIViewAnimationTransition.CurlUp, forView: theView!, cache: false)
-        UIView.commitAnimations()
-        mainTableView.allowsSelection = false
-        }
+    
+    
+    var mealsArray:NSMutableArray!
+    if (indexPath.section == 0) {mealsArray = mealsArrayU
+    if mealsArrayU.count == 0 {
+    return}
+    }
+    else {mealsArray = mealsArrayP
+    if mealsArrayP.count == 0 {
+    return}
+    }
+    
+    if( mealsArray[indexPath.row]["ifMatched"] as String == "true" )
+    {
+    //let chatVC = ChatViewController(myMatchId: mealsArray[indexPath.row]["matchId"] as String )
+    let chatVC = ChatViewControllerTest(myMatchId: mealsArray[indexPath.row]["matchId"] as String )
+    UIView.beginAnimations("ShowDetails", context: nil)
+    UIView.setAnimationCurve(UIViewAnimationCurve.EaseInOut)
+    UIView.setAnimationDuration(0.5)
+    navigationController?.pushViewController(chatVC, animated: false)
+    let theView = navigationController?.view
+    UIView.setAnimationTransition(UIViewAnimationTransition.FlipFromRight, forView: theView!, cache: false)
+    //UIView.setAnimationTransition(UIViewAnimationTransition.CurlUp, forView: theView!, cache: false)
+    UIView.commitAnimations()
+    mainTableView.allowsSelection = false
+    }
     }
     func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
-        
+    
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 180.0
+    return 180.0
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var customcell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as CustomTableViewCell
-        
-        
-        
-        var mealsArray:NSMutableArray!
-        if (indexPath.section == 0) {
-            customcell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
-            mealsArray = mealsArrayU
-            if mealsArrayU.count == 0
-            {
-                customcell.loadItem("You have",rangeOfTime: "",timeOfMeal: "NO",matching: "Upcoming Meals!!")
-                return customcell
-            }
-        }
-        else {mealsArray = mealsArrayP
-        
-            if mealsArrayP.count == 0
-            {
-                customcell.loadItem("You have",rangeOfTime: "",timeOfMeal: "NO",matching: "Pending Matches!!")
-                return customcell
-            }
-        }
-        println(mealsArray)
-        customcell.whichMeal.text = mealsArray[indexPath.row]["meals"] as? String
-        var tempMealType = mealsArray[indexPath.row]["meals"] as String
-        var tempStartTime = mealsArray[indexPath.row]["startTime"] as String
-        var tempMatchingString = mealsArray[indexPath.row]["matchString"] as String!
-        var tempMealRange = mealsArray[indexPath.row]["mealTimeRange"] as String
-        if (mealsArray[indexPath.row]["ifMatched"] as String == "true") {
-            customcell.loadItem("\(tempMealType)",rangeOfTime: "",timeOfMeal: "\(tempStartTime)",matching: "\(tempMatchingString)")
-        } else {
-            customcell.loadItem("\(tempMealType)",rangeOfTime: "\(tempMealRange)",timeOfMeal: "",matching: "\(tempMatchingString)")
-        }
-        
-        return customcell
+    var customcell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as CustomTableViewCell
+    
+    
+    
+    var mealsArray:NSMutableArray!
+    if (indexPath.section == 0) {
+    customcell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
+    mealsArray = mealsArrayU
+    if mealsArrayU.count == 0
+    {
+    customcell.loadItem("You have",rangeOfTime: "",timeOfMeal: "NO",matching: "Upcoming Meals!!")
+    return customcell
     }
-
+    }
+    else {mealsArray = mealsArrayP
+    
+    if mealsArrayP.count == 0
+    {
+    customcell.loadItem("You have",rangeOfTime: "",timeOfMeal: "NO",matching: "Pending Matches!!")
+    return customcell
+    }
+    }
+    println(mealsArray)
+    customcell.whichMeal.text = mealsArray[indexPath.row]["meals"] as? String
+    var tempMealType = mealsArray[indexPath.row]["meals"] as String
+    var tempStartTime = mealsArray[indexPath.row]["startTime"] as String
+    var tempMatchingString = mealsArray[indexPath.row]["matchString"] as String!
+    var tempMealRange = mealsArray[indexPath.row]["mealTimeRange"] as String
+    if (mealsArray[indexPath.row]["ifMatched"] as String == "true") {
+    customcell.loadItem("\(tempMealType)",rangeOfTime: "",timeOfMeal: "\(tempStartTime)",matching: "\(tempMatchingString)")
+    } else {
+    customcell.loadItem("\(tempMealType)",rangeOfTime: "\(tempMealRange)",timeOfMeal: "",matching: "\(tempMatchingString)")
+    }
+    
+    return customcell
+    }*/
+    
 }

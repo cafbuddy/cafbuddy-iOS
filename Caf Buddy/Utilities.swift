@@ -11,10 +11,13 @@ import UIKit
 
 let COLOR_MAIN_BACKGROUND_OFFWHITE = "#eaeaea" //"#0dc5d4" "#eaeaea"   #468499
 let COLOR_ACCENT_BLUE = "#0EDBEC"//"#1FB1C3"//
+let COLOR_DARKER_BLUE = "#1FB1C3"
 let COLOR_ACCENT_GREEN = "#0eec8e"
+let COLOR_GRAY = "#f4f4f4"
 
 let NAV_BAR_HEIGHT = 44
 let STATUS_BAR_HEIGHT = 20
+let TAB_BAR_HEIGHT = 49
 let KEYBOARD_HEIGHT = 216
 let TOOLBAR_KEYBOARD_HEIGHT = 35
 
@@ -58,6 +61,37 @@ func colorWithHexString (hex:String) -> UIColor {
     
     
     return UIColor(red: CGFloat(r) / 255.0, green: CGFloat(g) / 255.0, blue: CGFloat(b) / 255.0, alpha: CGFloat(1))
+}
+
+func filledImageFrom(source : UIImage, color : UIColor) -> UIImage {
+    
+    // begin a new image context, to draw our colored image onto with the right scale
+    UIGraphicsBeginImageContextWithOptions(source.size, false, UIScreen.mainScreen().scale)
+    
+    // get a reference to that context we created
+    var context : CGContextRef = UIGraphicsGetCurrentContext()
+    
+    // set the fill color
+    color.setFill()
+    
+    // translate/flip the graphics context (for transforming from CG* coords to UI* coords
+    CGContextTranslateCTM(context, 0, source.size.height);
+    CGContextScaleCTM(context, 1.0, -1.0);
+    
+    CGContextSetBlendMode(context, kCGBlendModeColorBurn);
+    var rect : CGRect = CGRectMake(0, 0, source.size.width, source.size.height);
+    CGContextDrawImage(context, rect, source.CGImage);
+    
+    CGContextSetBlendMode(context, kCGBlendModeSourceIn);
+    CGContextAddRect(context, rect);
+    CGContextDrawPath(context,kCGPathFill);
+    
+    // generate a new UIImage from the graphics context we drew onto
+    var coloredImg : UIImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    //return the color-burned image
+    return coloredImg;
 }
 
 func showAlert(title:String,message:String)
