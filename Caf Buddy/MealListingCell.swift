@@ -27,6 +27,7 @@ class MealListingCell : UICollectionViewCell {
     var imageMealType = UIImageView()
     var buttonChatAndStatus = UIButton()
     var buttonAddCalendar = UIButton()
+    var buttonSearching = UIButton()
     var labelMealDate = UILabel()
     var labelMealTime = UILabel()
     
@@ -97,6 +98,13 @@ class MealListingCell : UICollectionViewCell {
         buttonAddCalendar.addSubview(rightBorder)
         
         
+        buttonSearching.frame = CGRectMake(0, self.contentView.frame.height - buttonHeight, self.contentView.frame.width, buttonHeight)
+        buttonSearching.layer.cornerRadius = 3.0
+        buttonSearching.backgroundColor = colorWithHexString(COLOR_BUTTON_UNPRESSED_GRAY)
+        buttonSearching.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 25)
+        buttonSearching.setTitleColor(colorWithHexString(COLOR_ACCENT_GREEN), forState: UIControlState.Normal)
+        buttonSearching.titleLabel?.font = UIFont.systemFontOfSize(13)
+        
         labelMealDate.font = UIFont.systemFontOfSize(15)
         labelMealDate.textAlignment = NSTextAlignment.Center
         //labelMealType.textColor = colorWithHexString()
@@ -112,6 +120,7 @@ class MealListingCell : UICollectionViewCell {
         self.contentView.addSubview(imageMealType)
         self.contentView.addSubview(buttonChatAndStatus)
         self.contentView.addSubview(buttonAddCalendar)
+        self.contentView.addSubview(buttonSearching)
         self.contentView.addSubview(labelMealDate)
         self.contentView.addSubview(labelMealTime)
         
@@ -136,10 +145,15 @@ class MealListingCell : UICollectionViewCell {
         }
         else {
             labelMealType.text = "Breakfast"
-            imageMealType.image = filledImageFrom(UIImage(named: "hot51")!, colorWithHexString(COLOR_DARKER_BLUE))
+            imageMealType.image = filledImageFrom(UIImage(named: "toast")!, colorWithHexString(COLOR_DARKER_BLUE))
         }
         
         if (theMealStatus == MealStatus.Confirmed) {
+            
+            buttonSearching.hidden = true
+            buttonChatAndStatus.hidden = false
+            buttonAddCalendar.hidden = false
+            
             buttonChatAndStatus.setTitle("Chat W/ Buddy", forState: UIControlState.Normal)
             buttonChatAndStatus.setImage(filledImageFrom(UIImage(named: "chat2")!, colorWithHexString(COLOR_ACCENT_GREEN)), forState: UIControlState.Normal)
             buttonChatAndStatus.enabled = true
@@ -149,9 +163,14 @@ class MealListingCell : UICollectionViewCell {
             buttonAddCalendar.enabled = true
         }
         else {
-            buttonChatAndStatus.setTitle("Searching For A Buddy...", forState: UIControlState.Normal)
-            buttonChatAndStatus.setImage(filledImageFrom(UIImage(named: "buddy")!, colorWithHexString(COLOR_ACCENT_GREEN)), forState: UIControlState.Normal)
-            buttonChatAndStatus.enabled = false
+            
+            buttonChatAndStatus.hidden = true
+            buttonAddCalendar.hidden = true
+            buttonSearching.hidden = false
+            
+            buttonSearching.setTitle("Searching For A Buddy...", forState: UIControlState.Normal)
+            buttonSearching.setImage(filledImageFrom(UIImage(named: "buddy")!, colorWithHexString(COLOR_ACCENT_GREEN)), forState: UIControlState.Normal)
+            buttonSearching.enabled = false
         }
         
         labelMealDate.text = "Wednesday, September 2nd"

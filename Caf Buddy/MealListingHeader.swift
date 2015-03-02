@@ -18,7 +18,7 @@ class MealListingHeader : UICollectionReusableView {
 
         headerTitle.text = title
         headerTitle.font = UIFont.boldSystemFontOfSize(22)
-        headerTitle.textColor = colorWithHexString(COLOR_ACCENT_BLUE)
+        headerTitle.textColor = colorWithHexString(COLOR_DARKER_BLUE)
         headerTitle.textAlignment = NSTextAlignment.Center
         
         var offset : Int = 0
@@ -34,9 +34,9 @@ class MealListingHeader : UICollectionReusableView {
         }
         
         rightLine.frame = CGRectMake(10, 25 - CGFloat(offset), (self.frame.size.width / 2) - 70, 2)
-        rightLine.backgroundColor = colorWithHexString(COLOR_ACCENT_BLUE)
+        rightLine.backgroundColor = colorWithHexString(COLOR_DARKER_BLUE)
         leftLine.frame = CGRectMake(self.frame.size.width - (self.frame.size.width / 2) + 60, 25 - CGFloat(offset), (self.frame.size.width / 2) - 70, 2)
-        leftLine.backgroundColor = colorWithHexString(COLOR_ACCENT_BLUE)
+        leftLine.backgroundColor = colorWithHexString(COLOR_DARKER_BLUE)
         
         self.addSubview(rightLine)
         self.addSubview(leftLine)
