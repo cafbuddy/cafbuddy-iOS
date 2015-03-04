@@ -105,6 +105,8 @@
 		FF94E6C91AA37F410043BF41 /* steak@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FF94E6C81AA37F410043BF41 /* steak@2x.png */; };
 		FFA048541AA3F80D0000EFD3 /* toast@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FFA048531AA3F80D0000EFD3 /* toast@2x.png */; };
 		FFA0C9A21A9DB64A009278E6 /* silhouette.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = FFA0C9A11A9DB64A009278E6 /* silhouette.jpeg */; };
+		FFB032A71AA6A5C300589A73 /* historyIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FFB032A61AA6A5C300589A73 /* historyIcon@2x.png */; };
+		FFB032A91AA6A66E00589A73 /* historyIcon2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FFB032A81AA6A66E00589A73 /* historyIcon2@2x.png */; };
 		FFB27FB81AA3A0B00021C271 /* apple@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FFB27FB71AA3A0B00021C271 /* apple@2x.png */; };
 		FFB27FBA1AA3A5840021C271 /* chat@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FFB27FB91AA3A5840021C271 /* chat@2x.png */; };
 		FFB27FBC1AA3A8530021C271 /* buddy@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FFB27FBB1AA3A8530021C271 /* buddy@2x.png */; };
@@ -243,6 +245,8 @@
 		FF94E6C81AA37F410043BF41 /* steak@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "steak@2x.png"; sourceTree = "<group>"; };
 		FFA048531AA3F80D0000EFD3 /* toast@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "toast@2x.png"; sourceTree = "<group>"; };
 		FFA0C9A11A9DB64A009278E6 /* silhouette.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = silhouette.jpeg; sourceTree = "<group>"; };
+		FFB032A61AA6A5C300589A73 /* historyIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "historyIcon@2x.png"; sourceTree = "<group>"; };
+		FFB032A81AA6A66E00589A73 /* historyIcon2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "historyIcon2@2x.png"; sourceTree = "<group>"; };
 		FFB27FB71AA3A0B00021C271 /* apple@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "apple@2x.png"; sourceTree = "<group>"; };
 		FFB27FB91AA3A5840021C271 /* chat@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chat@2x.png"; sourceTree = "<group>"; };
 		FFB27FBB1AA3A8530021C271 /* buddy@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buddy@2x.png"; sourceTree = "<group>"; };
@@ -300,14 +304,9 @@
 				E0A9AE971A2133A8006F4504 /* CustomTableViewCell.swift */,
 				FFC56A281AA2E347003901A3 /* MealListingHeader.swift */,
 				FF89E6ED1A9FF68A00DC3E39 /* MealListingCell.swift */,
-				FF94E6C61AA37C140043BF41 /* hot51@2x.png */,
-				FF94E6C81AA37F410043BF41 /* steak@2x.png */,
-				FFB27FB71AA3A0B00021C271 /* apple@2x.png */,
-				FFB27FB91AA3A5840021C271 /* chat@2x.png */,
-				FFB27FBB1AA3A8530021C271 /* buddy@2x.png */,
-				FF622FE11AA3C7A400801E04 /* addCal@2x.png */,
-				FF622FE31AA3C9D300801E04 /* chat2@2x.png */,
-				FFA048531AA3F80D0000EFD3 /* toast@2x.png */,
+				FFB032A61AA6A5C300589A73 /* historyIcon@2x.png */,
+				FFB032A81AA6A66E00589A73 /* historyIcon2@2x.png */,
+				FFB032A41AA6A31C00589A73 /* Images */,
 				E0D7D8881A17BBB700C35136 /* LoginViewController.swift */,
 				E00E4E221A23FCAC0053C40E /* DataModel.swift */,
 				E0D7D8921A17C99400C35136 /* SwiftyJSON.swift */,
@@ -577,6 +576,21 @@
 			name = cafBuddylogo;
 			sourceTree = "<group>";
 		};
+		FFB032A41AA6A31C00589A73 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				FF94E6C61AA37C140043BF41 /* hot51@2x.png */,
+				FF94E6C81AA37F410043BF41 /* steak@2x.png */,
+				FFB27FB71AA3A0B00021C271 /* apple@2x.png */,
+				FFB27FB91AA3A5840021C271 /* chat@2x.png */,
+				FFB27FBB1AA3A8530021C271 /* buddy@2x.png */,
+				FF622FE11AA3C7A400801E04 /* addCal@2x.png */,
+				FF622FE31AA3C9D300801E04 /* chat2@2x.png */,
+				FFA048531AA3F80D0000EFD3 /* toast@2x.png */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -642,6 +656,7 @@
 				E079914A1A2B93B6007557DF /* JSQMessagesToolbarContentView.xib in Resources */,
 				E07991411A2B93B6007557DF /* JSQMessagesCollectionViewCellIncoming.xib in Resources */,
 				E079912C1A2B93B6007557DF /* message_received.aiff in Resources */,
+				FFB032A71AA6A5C300589A73 /* historyIcon@2x.png in Resources */,
 				E079914C1A2B93B6007557DF /* JSQMessagesTypingIndicatorFooterView.xib in Resources */,
 				E0D7D89F1A17EB0700C35136 /* cafbuddylogo.png in Resources */,
 				FFB27FBA1AA3A5840021C271 /* chat@2x.png in Resources */,
@@ -649,6 +664,7 @@
 				E07991521A2B95CE007557DF /* SHIP.png in Resources */,
 				FFA0C9A21A9DB64A009278E6 /* silhouette.jpeg in Resources */,
 				E0D7D8A01A17EB0700C35136 /* cafbuddylogo@2x.png in Resources */,
+				FFB032A91AA6A66E00589A73 /* historyIcon2@2x.png in Resources */,
 				E01C60D21A102FC400528411 /* Main.storyboard in Resources */,
 				E07991431A2B93B6007557DF /* JSQMessagesCollectionViewCellOutgoing.xib in Resources */,
 				E0D7D8A11A17EB0700C35136 /* cafbuddylogo@3x.png in Resources */,

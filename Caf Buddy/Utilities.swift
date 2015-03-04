@@ -12,7 +12,8 @@ import UIKit
 let COLOR_MAIN_BACKGROUND_OFFWHITE = "#eaeaea" //"#0dc5d4" "#eaeaea"   #468499
 let COLOR_ACCENT_BLUE = "#0EDBEC"//"#1FB1C3"//
 let COLOR_DARKER_BLUE = "#1FB1C3"
-let COLOR_ACCENT_GREEN = "#0eec8e"
+let COLOR_ACCENT_GREEN = "#0eec8e" //"#0dd480" //"#0eec8e" //0cd47f
+let COLOR_ACCENT_GREEN_DARKER = "#0dd480"
 let COLOR_BUTTON_UNPRESSED_GRAY = "#f4f4f4"
 let COLOR_BUTTON_PRESSED_GRAY = "#f0f0f0"
 
@@ -105,6 +106,29 @@ func getImageWithColor(color: UIColor, size: CGSize) -> UIImage {
     UIGraphicsEndImageContext()
     return image
 }
+/*FACTOR THIS INTO SWIFT AND USE TO ROUND THE CORNERS!!!!
++ (UIImage *)imageWithRoundedCornersSize:(float)cornerRadius usingImage:(UIImage *)original
+{
+    CGRect frame = CGRectMake(0, 0, original.size.width, original.size.height);
+    
+    // Begin a new image that will be the new image with the rounded corners
+    // (here with the size of an UIImageView)
+    UIGraphicsBeginImageContextWithOptions(original.size, NO, 1.0);
+    
+    // Add a clip before drawing anything, in the shape of an rounded rect
+    [[UIBezierPath bezierPathWithRoundedRect:frame
+        cornerRadius:cornerRadius] addClip];
+    // Draw your image
+    [original drawInRect:frame];
+    
+    // Get the image, here setting the UIImageView image
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    
+    // Lets forget about that we were drawing
+    UIGraphicsEndImageContext();
+    
+    return image;
+}*/
 
 func showAlert(title:String,message:String)
 {

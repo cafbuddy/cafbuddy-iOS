@@ -62,7 +62,6 @@ class LogInViewController: UIViewController,PFLogInViewControllerDelegate,PFSign
     func startMealScreen()
     {
         println("Start Meal Screen Called")
-        //mainTableView.allowsSelection = true
         if var currentUser = PFUser.currentUser()
         {
             
@@ -70,10 +69,8 @@ class LogInViewController: UIViewController,PFLogInViewControllerDelegate,PFSign
             {
                 println("Current User is \(currentUser.email)")
                 navigationController?.navigationBar.barTintColor = colorWithHexString(COLOR_ACCENT_BLUE)
-                navigationItem.title = "My Meals"
+                navigationItem.title = "Upcoming Meals"
                 navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
-                
-                //self.mainTableView.registerClass(CustomTableViewCell.self, forCellReuseIdentifier: "cell")
                 
                 initInterface()
             }
@@ -112,6 +109,10 @@ class LogInViewController: UIViewController,PFLogInViewControllerDelegate,PFSign
         else{
             startMealScreen()
         }
+    }
+    
+    func chatButtonWasPressed(sender : UIButton!) {
+        showChatViewController("test")
     }
     
     
@@ -306,6 +307,8 @@ class LogInViewController: UIViewController,PFLogInViewControllerDelegate,PFSign
         else {
             mealCell.setMealDetails(MealType.Dinner, theMealStatus : theMealStatus)
         }
+        
+        mealCell.buttonChatAndStatus.addTarget(self, action: "chatButtonWasPressed:", forControlEvents: UIControlEvents.TouchUpInside)
     
         return mealCell
     }

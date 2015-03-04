@@ -69,6 +69,11 @@ class MealListingCell : UICollectionViewCell {
         
         
         var buttonHeight : CGFloat = 40
+        var buttonTextSize : CGFloat = 13;
+        if (UIScreen.mainScreen().bounds.width < 375) {
+            buttonTextSize = 11 //need to accomodate the smaller screen width on iphone 5 and below
+        }
+        
         buttonChatAndStatus.frame = CGRectMake(self.contentView.frame.width/2, self.contentView.frame.height - buttonHeight, self.contentView.frame.width/2, buttonHeight)
         buttonChatAndStatus.layer.cornerRadius = 3.0
         buttonChatAndStatus.setBackgroundImage(getImageWithColor(colorWithHexString(COLOR_BUTTON_UNPRESSED_GRAY), CGSizeMake(self.contentView.frame.width, buttonHeight)), forState: UIControlState.Normal)
@@ -76,8 +81,7 @@ class MealListingCell : UICollectionViewCell {
         buttonChatAndStatus.setBackgroundImage(getImageWithColor(colorWithHexString(COLOR_BUTTON_PRESSED_GRAY), CGSizeMake(self.contentView.frame.width, buttonHeight)), forState: UIControlState.Selected)
         buttonChatAndStatus.imageEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 25)
         buttonChatAndStatus.setTitleColor(colorWithHexString(COLOR_ACCENT_GREEN), forState: UIControlState.Normal)
-        buttonChatAndStatus.titleLabel?.font = UIFont.systemFontOfSize(13)
-        //CGRectMake(<#x: CGFloat#>, <#y: CGFloat#>, <#width: CGFloat#>, <#height: CGFloat#>)
+        buttonChatAndStatus.titleLabel?.font = UIFont.systemFontOfSize(buttonTextSize)
         var leftBorder : UIView = UIView(frame: CGRectMake(1, 0, 1, buttonChatAndStatus.frame.size.height))
         leftBorder.backgroundColor = colorWithHexString(COLOR_BUTTON_PRESSED_GRAY)
         buttonChatAndStatus.addSubview(leftBorder)
@@ -91,7 +95,7 @@ class MealListingCell : UICollectionViewCell {
         buttonAddCalendar.setBackgroundImage(getImageWithColor(colorWithHexString(COLOR_BUTTON_PRESSED_GRAY), CGSizeMake(self.contentView.frame.width, buttonHeight)), forState: UIControlState.Selected)
         buttonAddCalendar.imageEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 25)
         buttonAddCalendar.setTitleColor(colorWithHexString(COLOR_ACCENT_GREEN), forState: UIControlState.Normal)
-        buttonAddCalendar.titleLabel?.font = UIFont.systemFontOfSize(13)
+        buttonAddCalendar.titleLabel?.font = UIFont.systemFontOfSize(buttonTextSize)
         
         var rightBorder : UIView = UIView(frame: CGRectMake(buttonAddCalendar.frame.size.width, 0, 1, buttonAddCalendar.frame.size.height))
         rightBorder.backgroundColor = colorWithHexString(COLOR_BUTTON_PRESSED_GRAY)
