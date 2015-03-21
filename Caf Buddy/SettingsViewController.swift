@@ -62,13 +62,13 @@ class SettingsViewController: UIViewController
         buttonLogOut.backgroundColor = colorWithHexString(COLOR_ACCENT_BLUE)
         buttonLogOut.layer.cornerRadius = 3.0
         
-        var imageView = UIImageView(frame: CGRectMake((screenSize.width - 200)/2, 100, 200, 200));
-        var image = UIImage(named: "silhouette.jpeg");
-        imageView.image = image;
-        self.view.addSubview(imageView);
+        //var imageView = UIImageView(frame: CGRectMake((screenSize.width - 200)/2, 100, 200, 200));
+        //var image = UIImage(named: "silhouette.jpeg");
+        //imageView.image = image;
+        //self.view.addSubview(imageView);
         
-        var userName = UILabel(frame: CGRectMake(140,275,100,100))
-        userName.text = "JACOB < TURNBLAD"
+        var userName = UILabel(frame: CGRectMake(140,275,100,500))
+        userName.text = ""
         userName.font = UIFont.italicSystemFontOfSize(20)
         
         self.view.addSubview(buttonLogOut)
