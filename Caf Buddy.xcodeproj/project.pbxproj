@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		07BCD2441ABD11B600935827 /* HistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07BCD2431ABD11B600935827 /* HistoryViewController.swift */; };
 		E00E4E231A23FCAC0053C40E /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00E4E221A23FCAC0053C40E /* DataModel.swift */; };
 		E01C60CB1A102FC400528411 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01C60CA1A102FC400528411 /* AppDelegate.swift */; };
 		E01C60D21A102FC400528411 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E01C60D01A102FC400528411 /* Main.storyboard */; };
@@ -115,6 +116,7 @@
 
 /* Begin PBXFileReference section */
 		00496A201A21396C00A06E2F /* Caf_Buddy-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Caf_Buddy-Bridging-Header.h"; sourceTree = SOURCE_ROOT; };
+		07BCD2431ABD11B600935827 /* HistoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryViewController.swift; sourceTree = "<group>"; };
 		E00E4E221A23FCAC0053C40E /* DataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
 		E01C60C51A102FC300528411 /* Caf Buddy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Caf Buddy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E01C60C91A102FC400528411 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -324,6 +326,7 @@
 				E0D7D8961A17CBE900C35136 /* SecondViewController.swift */,
 				E0D7D8A31A181EBB00C35136 /* SpecialTextField.swift */,
 				E01C60D01A102FC400528411 /* Main.storyboard */,
+				07BCD2431ABD11B600935827 /* HistoryViewController.swift */,
 				FFA0C9A11A9DB64A009278E6 /* silhouette.jpeg */,
 				E0BFC1F81A27CB18001E0361 /* SettingsViewController.swift */,
 				E01C60D31A102FC400528411 /* Images.xcassets */,
@@ -737,6 +740,7 @@
 				E07991381A2B93B6007557DF /* JSQMessagesTimestampFormatter.m in Sources */,
 				E07991401A2B93B6007557DF /* JSQMessagesCollectionViewCellIncoming.m in Sources */,
 				E0D7D8931A17C99400C35136 /* SwiftyJSON.swift in Sources */,
+				07BCD2441ABD11B600935827 /* HistoryViewController.swift in Sources */,
 				E07991461A2B93B6007557DF /* JSQMessagesLabel.m in Sources */,
 				E07991441A2B93B6007557DF /* JSQMessagesComposerTextView.m in Sources */,
 				E079913C1A2B93B6007557DF /* JSQMessagesCollectionViewLayoutAttributes.m in Sources */,
