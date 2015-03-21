@@ -68,7 +68,7 @@ class SettingsViewController: UIViewController
         self.view.addSubview(imageView);
         
         var userName = UILabel(frame: CGRectMake(140,275,100,100))
-        userName.text = "Turnblad69"
+        userName.text = "JACOB < TURNBLAD"
         userName.font = UIFont.italicSystemFontOfSize(20)
         
         self.view.addSubview(buttonLogOut)

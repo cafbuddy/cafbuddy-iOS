@@ -106,6 +106,7 @@ func getImageWithColor(color: UIColor, size: CGSize) -> UIImage {
     UIGraphicsEndImageContext()
     return image
 }
+
 /*FACTOR THIS INTO SWIFT AND USE TO ROUND THE CORNERS!!!!
 + (UIImage *)imageWithRoundedCornersSize:(float)cornerRadius usingImage:(UIImage *)original
 {
