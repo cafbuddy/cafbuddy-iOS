@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 St. Olaf Acm. All rights reserved.
 //
 
-import Foundation
+/*import Foundation
 
 class HistoryViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
@@ -82,4 +82,4 @@ class HistoryViewController: UIViewController, UICollectionViewDataSource, UICol
     }
 
     
-}
+};*/
