@@ -4,7 +4,7 @@
 //
 //  Created by Armaan Bindra on 11/15/14 and Jacob Forster on 2/28/15.
 //  Copyright (c) 2015 St. Olaf Acm. All rights reserved.
-// test
+//
 
 import Foundation
 import UIKit
